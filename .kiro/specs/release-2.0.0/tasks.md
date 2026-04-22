@@ -10,17 +10,17 @@
 
 ## Tasks
 
-- [ ] 1. Update Composer configuration
-  - [ ] 1.1 Update `composer.json` dependencies
+- [x] 1. Update Composer configuration
+  - [x] 1.1 Update `composer.json` dependencies
     - Add `"php": ">=8.2"` to `require` section
     - Update `require-dev` from `"phpunit/phpunit": "^5.1"` to `"phpunit/phpunit": "^11.0"`
     - Verify no `version` field exists and no other runtime dependencies in `require`
     - Run `composer update` to regenerate `composer.lock`
     - Ref: Requirement 1, AC 1-4
-  - [ ] 1.2 Checkpoint: 执行 `composer validate` 确认 `composer.json` 格式正确；执行 `php -r "require 'vendor/autoload.php';"` 确认 autoload 正常
+  - [x] 1.2 Checkpoint: 执行 `composer validate` 确认 `composer.json` 格式正确；执行 `php -r "require 'vendor/autoload.php';"` 确认 autoload 正常
 
-- [ ] 2. Add type declarations to EventDispatcherInterface
-  - [ ] 2.1 Add PHP 8 type declarations to `src/EventDispatcherInterface.php`
+- [x] 2. Add type declarations to EventDispatcherInterface
+  - [x] 2.1 Add PHP 8 type declarations to `src/EventDispatcherInterface.php`
     - Add parameter types and return types to all interface methods
     - `getParentEventDispatcher(): ?EventDispatcherInterface`
     - `setParentEventDispatcher(EventDispatcherInterface $parent): void`
@@ -30,10 +30,10 @@
     - `removeAllEventListeners(string $name = ''): void`
     - `setDelegateDispatcher(?EventDispatcherInterface $delegate): void`
     - Ref: Requirement 3, AC 1-4
-  - [ ] 2.2 Checkpoint: 执行 `php -l src/EventDispatcherInterface.php` 确认无语法错误
+  - [x] 2.2 Checkpoint: 执行 `php -l src/EventDispatcherInterface.php` 确认无语法错误
 
-- [ ] 3. Add type declarations and fix spelling in Event class
-  - [ ] 3.1 Add PHP 8 type declarations and fix `Propogation` spelling in `src/Event.php`
+- [x] 3. Add type declarations and fix spelling in Event class
+  - [x] 3.1 Add PHP 8 type declarations and fix `Propogation` spelling in `src/Event.php`
     - Add typed property declarations for all class properties (including uninitialized `$target` and `$currentTarget` as `EventDispatcherInterface`)
     - Add `public` visibility to constructor, add parameter types and return types to constructor and all public methods
     - Rename properties: `$propogationStopped` → `$propagationStopped`, `$propogationStoppedImmediately` → `$propagationStoppedImmediately`
@@ -41,109 +41,109 @@
     - Use `void` return type for methods with no meaningful return value
     - Do NOT provide deprecated aliases for old method names
     - Ref: Requirement 2, AC 1-5; Requirement 5, AC 1-5, 7
-  - [ ] 3.2 Checkpoint: 执行 `php -l src/Event.php` 确认无语法错误
+  - [x] 3.2 Checkpoint: 执行 `php -l src/Event.php` 确认无语法错误
 
-- [ ] 4. Add type declarations, fix spelling, and add safety constraints to EventDispatcherTrait
-  - [ ] 4.1 Add PHP 8 type declarations, fix spelling, and add safety constraints in `src/EventDispatcherTrait.php`
+- [x] 4. Add type declarations, fix spelling, and add safety constraints to EventDispatcherTrait
+  - [x] 4.1 Add PHP 8 type declarations, fix spelling, and add safety constraints in `src/EventDispatcherTrait.php`
     - Add typed property declarations: `$eventParent` as `?EventDispatcherInterface`, `$eventListeners` as `array` with phpdoc `@var array<string, array<int, array<int, callable>>>`, `$delegateDispatcher` as `?EventDispatcherInterface`
     - Add parameter types and return types to all public and protected methods, matching `EventDispatcherInterface` signatures
     - Add `@phpstan-require-implements EventDispatcherInterface` annotation to trait docblock
     - Add runtime `LogicException` check at the beginning of `dispatch()`: if `$this` is not an instance of `EventDispatcherInterface`, throw `\LogicException`
     - Update all internal references from `Propogation` to `Propagation` (method calls: `isPropogationStopped()` → `isPropagationStopped()`, `isPropogationStoppedImmediately()` → `isPropagationStoppedImmediately()`)
     - Ref: Requirement 4, AC 1-6; Requirement 5, AC 6
-  - [ ] 4.2 Checkpoint: 执行 `php -l src/EventDispatcherTrait.php` 确认无语法错误；执行 `composer install` 确认依赖正常；执行 `php -l src/Event.php src/EventDispatcherInterface.php src/EventDispatcherTrait.php` 确认三个源文件均无语法错误
+  - [x] 4.2 Checkpoint: 执行 `php -l src/EventDispatcherTrait.php` 确认无语法错误；执行 `composer install` 确认依赖正常；执行 `php -l src/Event.php src/EventDispatcherInterface.php src/EventDispatcherTrait.php` 确认三个源文件均无语法错误
 
-- [ ] 5. Update PHPUnit configuration
-  - [ ] 5.1 Update `phpunit.xml` to PHPUnit 11+ format
+- [x] 5. Update PHPUnit configuration
+  - [x] 5.1 Update `phpunit.xml` to PHPUnit 11+ format
     - Change schema URL from `http://schema.phpunit.de/5.1/phpunit.xsd` to `https://schema.phpunit.de/11.0/phpunit.xsd`
     - Keep `bootstrap="vendor/autoload.php"`
     - Change test suite from `<file>ut/EventTest.php</file>` to `<directory>ut</directory>`
     - Ref: Requirement 6, AC 1-4
-  - [ ] 5.2 Checkpoint: 执行 `vendor/bin/phpunit --version` 确认 PHPUnit 11.x 可用
+  - [x] 5.2 Checkpoint: 执行 `vendor/bin/phpunit --version` 确认 PHPUnit 11.x 可用
 
-- [ ] 6. Migrate existing tests to PHPUnit 11+ style
-  - [ ] 6.1 Migrate `ut/EventTest.php` to PHPUnit 11+ API
+- [x] 6. Migrate existing tests to PHPUnit 11+ style
+  - [x] 6.1 Migrate `ut/EventTest.php` to PHPUnit 11+ API
     - Replace `\PHPUnit_Framework_TestCase` with `PHPUnit\Framework\TestCase`
     - Replace `\PHPUnit_Framework_MockObject_MockObject` with `PHPUnit\Framework\MockObject\MockObject`
     - Replace `$this->getMockBuilder("stdClass")->setMethods([...])` with PHPUnit 11+ mock API (`$this->getMockBuilder(\stdClass::class)->addMethods([...])`)
     - Update `protected function setUp()` to `protected function setUp(): void`
     - Update all `Propogation` references to `Propagation` in test code (e.g. `stopPropogation()` → `stopPropagation()`, `stopImmediatePropogation()` → `stopImmediatePropagation()`)
     - Ref: Requirement 7, AC 1-4
-  - [ ] 6.2 Checkpoint: 执行 `vendor/bin/phpunit` 确认所有迁移后的测试通过，无错误、无 deprecation warning
+  - [x] 6.2 Checkpoint: 执行 `vendor/bin/phpunit` 确认所有迁移后的测试通过，无错误、无 deprecation warning
 
-- [ ] 7. Add new test coverage — Example-based and Smoke tests
-  - [ ] 7.1 Add Event construction tests
+- [x] 7. Add new test coverage — Example-based and Smoke tests
+  - [x] 7.1 Add Event construction tests
     - Test all parameter combinations: name only, name + context, name + context + bubbles, name + context + bubbles + cancellable
     - Verify getters return correct values and `isCancelled()` returns false
     - Ref: Requirement 8, AC 1
-  - [ ] 7.2 Add cancel and preventDefault tests
+  - [x] 7.2 Add cancel and preventDefault tests
     - Test `cancel()` on cancellable event: verify `isCancelled()` returns true
     - Test `cancel()` on non-cancellable event: verify `LogicException` is thrown
     - Test `preventDefault()` behaves identically to `cancel()`
     - Ref: Requirement 8, AC 2-4
-  - [ ] 7.3 Add context read/write tests
+  - [x] 7.3 Add context read/write tests
     - Test `getContext()` and `setContext()` for various values
     - Test `dispatch()` with context parameter sets context on event
     - Ref: Requirement 8, AC 5, 13
-  - [ ] 7.4 Add doesBubble tests
+  - [x] 7.4 Add doesBubble tests
     - Test `doesBubble()` returns `true` for bubbling events and `false` for capturing events
     - Ref: Requirement 8, AC 6
-  - [ ] 7.5 Add bubbling mode target/currentTarget tests
+  - [x] 7.5 Add bubbling mode target/currentTarget tests
     - Test that `getTarget()` returns the originating (child) dispatcher at every handler in the chain
     - Test that `getCurrentTarget()` returns the dispatcher currently handling the event, following child → parent order
     - Ref: Requirement 8, AC 7
-  - [ ] 7.6 Add capturing mode target/currentTarget and execution order tests
+  - [x] 7.6 Add capturing mode target/currentTarget and execution order tests
     - Test that `getTarget()` returns the originating (child) dispatcher
     - Test that `getCurrentTarget()` follows root → parent → child order (reversed chain)
     - Verify parent-to-child execution order for capturing events
     - Ref: Requirement 8, AC 8, 14
-  - [ ] 7.7 Add removeAllEventListeners tests
+  - [x] 7.7 Add removeAllEventListeners tests
     - Test removing all listeners for a specific event name preserves other event listeners
     - Test removing all listeners with empty string removes all listeners for all events
     - Ref: Requirement 8, AC 9-10
-  - [ ] 7.8 Add listener priority ordering tests
+  - [x] 7.8 Add listener priority ordering tests
     - Test that listeners with lower numeric priority execute first
     - Ref: Requirement 8, AC 11
-  - [ ] 7.9 Add delegate dispatcher test
+  - [x] 7.9 Add delegate dispatcher test
     - Test that dispatch is forwarded to the delegate dispatcher
     - Ref: Requirement 8, AC 12
-  - [ ] 7.10 Add trait safety constraint test
+  - [x] 7.10 Add trait safety constraint test
     - Test that a class using `EventDispatcherTrait` without implementing `EventDispatcherInterface` throws `LogicException` on `dispatch()`
     - Ref: Requirement 4, AC 5
-  - [ ] 7.11 Checkpoint: 执行 `vendor/bin/phpunit` 确认所有测试（迁移 + 新增 example-based）通过，无错误、无 deprecation warning
+  - [x] 7.11 Checkpoint: 执行 `vendor/bin/phpunit` 确认所有测试（迁移 + 新增 example-based）通过，无错误、无 deprecation warning
 
-- [ ] 8. Verify PBT library compatibility and add property-based tests
-  - [ ] 8.1 Check PhpQuickCheck compatibility with PHP 8.2 / PHPUnit 11
+- [x] 8. Verify PBT library compatibility and add property-based tests
+  - [x] 8.1 Check PhpQuickCheck compatibility with PHP 8.2 / PHPUnit 11
     - Attempt `composer require --dev steffenfriedrich/php-quickcheck`
     - If compatible, use PhpQuickCheck for PBT; if not, fall back to `@dataProvider` + custom random generators (minimum 100 iterations per property)
     - Ref: Design Testing Strategy
-  - [ ] 8.2 Write property test for Event construction value integrity
+  - [x] 8.2 Write property test for Event construction value integrity
     - **Property 1: Event 构造保持值完整性**
     - Generate random (name: non-empty string, context: mixed, bubbles: bool, cancellable: bool) and verify all getters return construction parameters, `isCancelled()` returns false
     - Validates: Requirement 2, AC 5; Requirement 8, AC 1
-  - [ ] 8.3 Write property test for context read/write consistency
+  - [x] 8.3 Write property test for context read/write consistency
     - **Property 2: Context 读写一致性**
     - Generate random mixed values, verify `setContext()` then `getContext()` returns identical value; verify `dispatch($event, $context)` sets context correctly
     - Validates: Requirement 8, AC 5, 13
-  - [ ] 8.4 Write property test for bubbling mode target/currentTarget correctness
+  - [x] 8.4 Write property test for bubbling mode target/currentTarget correctness
     - **Property 3: 冒泡模式下 target/currentTarget 正确性**
     - Generate random chain depth 2-5, verify `getTarget()` always returns child dispatcher, `getCurrentTarget()` follows child → parent order
     - Validates: Requirement 8, AC 7
-  - [ ] 8.5 Write property test for capturing mode target/currentTarget and execution order
+  - [x] 8.5 Write property test for capturing mode target/currentTarget and execution order
     - **Property 4: 捕获模式下 target/currentTarget 与执行顺序**
     - Generate random chain depth 2-5, verify `getTarget()` always returns child dispatcher, `getCurrentTarget()` follows root → child order (reversed)
     - Validates: Requirement 8, AC 8, 14
-  - [ ] 8.6 Write property test for removeAllEventListeners selective and global removal
+  - [x] 8.6 Write property test for removeAllEventListeners selective and global removal
     - **Property 5: removeAllEventListeners 选择性与全局移除**
     - Generate random event name sets and listeners, verify selective removal only affects specified name, global removal clears all
     - Validates: Requirement 8, AC 9-10
-  - [ ] 8.7 Write property test for listener priority ordering
+  - [x] 8.7 Write property test for listener priority ordering
     - **Property 6: 监听器优先级排序**
     - Generate random distinct integer priorities, verify execution order matches ascending priority (ksort)
     - Validates: Requirement 8, AC 11
-  - [ ] 8.8 Checkpoint: 执行 `vendor/bin/phpunit` 确认所有测试（迁移 + example-based + PBT）通过，无错误、无 deprecation warning
+  - [x] 8.8 Checkpoint: 执行 `vendor/bin/phpunit` 确认所有测试（迁移 + example-based + PBT）通过，无错误、无 deprecation warning
 
-- [ ] 9. Update SSOT documentation
+- [~] 9. Update SSOT documentation
   - [ ] 9.1 Update `docs/state/architecture.md`
     - Change 语言 to "PHP（>=8.2）"
     - Change 测试 to "PHPUnit ^11.0"
@@ -158,7 +158,7 @@
     - Ref: Requirement 9, AC 2-4
   - [ ] 9.3 Checkpoint: 目视检查 `docs/state/architecture.md` 和 `docs/state/api.md` 与实现代码一致；执行 `vendor/bin/phpunit` 确认全量测试仍通过
 
-- [ ] 10. Manual testing
+- [~] 10. Manual testing
   - [ ] 10.1 环境准备：确认 PHP >=8.2 已安装，`composer install` 成功，`vendor/bin/phpunit --version` 输出 PHPUnit 11.x
   - [ ] 10.2 验证 Composer 约束生效：检查 `composer.json` 中 `require.php` 为 `>=8.2`，`require-dev.phpunit/phpunit` 为 `^11.0`，无 `version` 字段
   - [ ] 10.3 验证类型声明完整性：使用 PHP Reflection API 检查 Event、EventDispatcherInterface、EventDispatcherTrait 的所有公开方法均有参数类型和返回类型声明
@@ -167,7 +167,7 @@
   - [ ] 10.6 验证全量测试通过：执行 `vendor/bin/phpunit`，确认所有测试通过、无 deprecation warning
   - [ ] 10.7 验证 SSOT 文档一致性：目视检查 `docs/state/architecture.md` 和 `docs/state/api.md` 与实现代码一致
 
-- [ ] 11. Code Review
+- [~] 11. Code Review
   - 委托给 code-reviewer sub-agent 执行
 
 ---

@@ -9,69 +9,75 @@
 namespace Oasis\Mlib\Event;
 
 /**
- * Class EventDispatcherTrait
+ * Default implementation of EventDispatcherInterface.
  *
- * @package   Oasis\Mlib\Event
+ * @phpstan-require-implements EventDispatcherInterface
  */
 trait EventDispatcherTrait
 {
-    /** @var EventDispatcherInterface */
-    protected $eventParent = null;
-    /** @var array */
-    protected $eventListeners = [];
-    /** @var EventDispatcherInterface */
-    protected $delegateDispatcher = null;
-    
-    public function getParentEventDispatcher()
+    protected ?EventDispatcherInterface $eventParent = null;
+    /** @var array<string, array<int, array<int, callable>>> */
+    protected array $eventListeners = [];
+    protected ?EventDispatcherInterface $delegateDispatcher = null;
+
+    public function getParentEventDispatcher(): ?EventDispatcherInterface
     {
         return $this->eventParent;
     }
-    
-    public function setParentEventDispatcher(EventDispatcherInterface $parent)
+
+    public function setParentEventDispatcher(EventDispatcherInterface $parent): void
     {
         $this->eventParent = $parent;
     }
-    
-    public function dispatch($event, $context = null)
+
+    public function dispatch(Event|string $event, mixed $context = null): void
     {
+        if (!$this instanceof EventDispatcherInterface) {
+            throw new \LogicException(
+                sprintf(
+                    'Class %s uses EventDispatcherTrait but does not implement EventDispatcherInterface.',
+                    static::class
+                )
+            );
+        }
+
         if (!$event instanceof Event) {
             $event = new Event(strval($event), $context);
         }
         if ($context) {
             $event->setContext($context);
         }
-        
+
         if ($this->delegateDispatcher instanceof EventDispatcherInterface) {
             $this->delegateDispatcher->dispatch($event);
-            
+
             return;
         }
-        
-        /** @noinspection PhpParamsInspection */
+
         $event->setTarget($this);
-        
+
         $chain = [];
         /** @var EventDispatcherInterface $dispatcher */
         $dispatcher = $this;
         do {
             $chain[] = $dispatcher;
         } while ($dispatcher = $dispatcher->getParentEventDispatcher());
-        
+
         if (!$event->doesBubble()) { // this event uses capturing method
             $chain = array_reverse($chain);
         }
-        
+
         foreach ($chain as $dispatcher) {
             /** @noinspection PhpUndefinedMethodInspection */
             $dispatcher->doDispatchEvent($event);
-            
-            if ($event->isPropogationStopped()) {
+
+            if ($event->isPropagationStopped()) {
                 break;
             }
         }
     }
-    
-    public function addEventListener($name, callable $listener, $priority = 0)
+
+    public function addEventListener(string $name, callable $listener, int $priority = 0): void
     {
         if (!isset($this->eventListeners[$name]) || !is_array($this->eventListeners[$name])) {
             $this->eventListeners[$name] = [];
@@ -82,26 +88,26 @@ trait EventDispatcherTrait
             $this->eventListeners[$name][$priority] = [];
             ksort($this->eventListeners[$name]);
         }
-        
+
         $this->eventListeners[$name][$priority][] = $listener;
     }
-    
-    public function removeEventListener($name, callable $listener)
+
+    public function removeEventListener(string $name, callable $listener): void
     {
         $comp = function ($a, $b) {
             if (is_string($a) && is_string($b) && $a == $b) {
                 return true;
             }
-            
+
             if (is_array($a) && is_array($b) && count($a) == 2 && count($b) == 2) {
                 if ($a[0] == $b[0] && $a[1] == $b[1]) {
                     return true;
                 }
             }
-            
+
             return $a === $b;
         };
-        
+
         if (isset($this->eventListeners[$name]) && is_array($this->eventListeners[$name])) {
             foreach ($this->eventListeners[$name] as $priority => &$list) {
                 $new_list = [];
@@ -114,8 +120,8 @@ trait EventDispatcherTrait
             }
         }
     }
-    
-    public function removeAllEventListeners($name = '')
+
+    public function removeAllEventListeners(string $name = ''): void
     {
         foreach ($this->eventListeners as $eventName => &$list) {
             if ($name == '' || $eventName == $name) {
@@ -123,31 +129,26 @@ trait EventDispatcherTrait
             }
         }
     }
-    
-    /**
-     * @param EventDispatcherInterface|null $delegateDispatcher
-     */
-    public function setDelegateDispatcher($delegateDispatcher)
+
+    public function setDelegateDispatcher(?EventDispatcherInterface $delegate): void
     {
-        $this->delegateDispatcher = $delegateDispatcher;
+        $this->delegateDispatcher = $delegate;
     }
-    
-    protected function doDispatchEvent(Event $event)
+
+    protected function doDispatchEvent(Event $event): void
     {
-        /** @noinspection PhpParamsInspection */
         $event->setCurrentTarget($this);
-        
+
         if (isset($this->eventListeners[$event->getName()])) {
             foreach ($this->eventListeners[$event->getName()] as $priority => $callbacks) {
                 foreach ($callbacks as $callback) {
                     call_user_func($callback, $event);
-                    
-                    if ($event->isPropogationStoppedImmediately()) {
+
+                    if ($event->isPropagationStoppedImmediately()) {
                         return;
                     }
                 }
             }
         }
     }
-    
 }
