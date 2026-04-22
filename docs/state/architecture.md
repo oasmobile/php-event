@@ -2,11 +2,11 @@
 
 ## 技术选型
 
-- **语言**：PHP（无最低版本显式声明；PHPUnit ^5.1 要求 PHP ≥ 5.6）
+- **语言**：PHP（>=8.2）
 - **包类型**：Composer library（`oasis/event`）
 - **自动加载**：PSR-4，`Oasis\Mlib\Event\` → `src/`
-- **测试**：PHPUnit ^5.1，配置文件 `phpunit.xml`，测试目录 `ut/`
-- **无运行时依赖**（`require` 为空）
+- **测试**：PHPUnit ^11.0，配置文件 `phpunit.xml`，测试目录 `ut/`
+- **运行时依赖**：`php >=8.2`（Composer `require`）
 
 ## 分层结构
 
@@ -21,6 +21,7 @@ src/
 
 ## 测试策略
 
-- 单元测试位于 `ut/`，使用 PHPUnit mock 验证回调调用
+- 单元测试位于 `ut/`，使用 PHPUnit 11 mock API 验证回调调用
 - 测试中定义了 `DummyEventDispatcher`（实现接口 + 使用 trait）作为测试替身
+- Property-based 测试使用 `@dataProvider` + 自定义随机生成器，每个 property 至少 100 次迭代
 - 运行命令：`vendor/bin/phpunit`

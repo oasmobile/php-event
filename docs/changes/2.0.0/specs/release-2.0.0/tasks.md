@@ -143,31 +143,31 @@
     - Validates: Requirement 8, AC 11
   - [x] 8.8 Checkpoint: 执行 `vendor/bin/phpunit` 确认所有测试（迁移 + example-based + PBT）通过，无错误、无 deprecation warning
 
-- [~] 9. Update SSOT documentation
-  - [ ] 9.1 Update `docs/state/architecture.md`
+- [x] 9. Update SSOT documentation
+  - [x] 9.1 Update `docs/state/architecture.md`
     - Change 语言 to "PHP（>=8.2）"
     - Change 测试 to "PHPUnit ^11.0"
     - Add "运行时依赖：`php >=8.2`（Composer `require`）" to 技术选型
     - Update 测试策略 section with PHPUnit version description
     - Ref: Requirement 9, AC 1
-  - [ ] 9.2 Update `docs/state/api.md`
+  - [x] 9.2 Update `docs/state/api.md`
     - Replace all `Propogation` references with `Propagation` in method names and descriptions
     - Add type signatures (parameter types + return types) to all public methods in Event, EventDispatcherInterface, and EventDispatcherTrait sections
     - Update `setDelegateDispatcher` parameter to `?EventDispatcherInterface`
     - Remove the historical note about `Propogation` being a legacy spelling
     - Ref: Requirement 9, AC 2-4
-  - [ ] 9.3 Checkpoint: 目视检查 `docs/state/architecture.md` 和 `docs/state/api.md` 与实现代码一致；执行 `vendor/bin/phpunit` 确认全量测试仍通过
+  - [x] 9.3 Checkpoint: 目视检查 `docs/state/architecture.md` 和 `docs/state/api.md` 与实现代码一致；执行 `vendor/bin/phpunit` 确认全量测试仍通过
 
-- [~] 10. Manual testing
-  - [ ] 10.1 环境准备：确认 PHP >=8.2 已安装，`composer install` 成功，`vendor/bin/phpunit --version` 输出 PHPUnit 11.x
-  - [ ] 10.2 验证 Composer 约束生效：检查 `composer.json` 中 `require.php` 为 `>=8.2`，`require-dev.phpunit/phpunit` 为 `^11.0`，无 `version` 字段
-  - [ ] 10.3 验证类型声明完整性：使用 PHP Reflection API 检查 Event、EventDispatcherInterface、EventDispatcherTrait 的所有公开方法均有参数类型和返回类型声明
-  - [ ] 10.4 验证拼写修正：确认源代码中不存在 `Propogation` 拼写（`grep -r "Propogation" src/` 无结果）
-  - [ ] 10.5 验证 Trait 安全约束：创建一个不实现 `EventDispatcherInterface` 但使用 `EventDispatcherTrait` 的临时类，调用 `dispatch()` 确认抛出 `LogicException`
-  - [ ] 10.6 验证全量测试通过：执行 `vendor/bin/phpunit`，确认所有测试通过、无 deprecation warning
-  - [ ] 10.7 验证 SSOT 文档一致性：目视检查 `docs/state/architecture.md` 和 `docs/state/api.md` 与实现代码一致
+- [x] 10. Manual testing
+  - [x] 10.1 环境准备：确认 PHP >=8.2 已安装，`composer install` 成功，`vendor/bin/phpunit --version` 输出 PHPUnit 11.x
+  - [x] 10.2 验证 Composer 约束生效：检查 `composer.json` 中 `require.php` 为 `>=8.2`，`require-dev.phpunit/phpunit` 为 `^11.0`，无 `version` 字段
+  - [x] 10.3 验证类型声明完整性：使用 PHP Reflection API 检查 Event、EventDispatcherInterface、EventDispatcherTrait 的所有公开方法均有参数类型和返回类型声明
+  - [x] 10.4 验证拼写修正：确认源代码中不存在 `Propogation` 拼写（`grep -r "Propogation" src/` 无结果）
+  - [x] 10.5 验证 Trait 安全约束：创建一个不实现 `EventDispatcherInterface` 但使用 `EventDispatcherTrait` 的临时类，调用 `dispatch()` 确认抛出 `LogicException`
+  - [x] 10.6 验证全量测试通过：执行 `vendor/bin/phpunit`，确认所有测试通过、无 deprecation warning
+  - [x] 10.7 验证 SSOT 文档一致性：目视检查 `docs/state/architecture.md` 和 `docs/state/api.md` 与实现代码一致
 
-- [~] 11. Code Review
+- [x] 11. Code Review
   - 委托给 code-reviewer sub-agent 执行
 
 ---
