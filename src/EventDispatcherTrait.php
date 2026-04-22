@@ -68,7 +68,9 @@ trait EventDispatcherTrait
         }
 
         foreach ($chain as $dispatcher) {
-            /** @noinspection PhpUndefinedMethodInspection */
+            // @noinspection PhpUndefinedMethodInspection — doDispatchEvent() is a protected method
+            // defined in this trait, not in EventDispatcherInterface; the IDE cannot resolve it
+            // because $dispatcher is typed as EventDispatcherInterface.
             $dispatcher->doDispatchEvent($event);
 
             if ($event->isPropagationStopped()) {

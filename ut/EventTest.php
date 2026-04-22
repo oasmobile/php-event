@@ -35,7 +35,7 @@ class EventTest extends TestCase
         $this->mocked_subscriber = $this->createMock(EventSubscriberStub::class);
     }
 
-    public function testDispatch()
+    public function testDispatch(): void
     {
         $this->mocked_subscriber->expects($this->once())
                                 ->method('func')
@@ -45,7 +45,7 @@ class EventTest extends TestCase
         $this->dummy_dispatcher->dispatch(new Event('visit'));
     }
 
-    public function testDispatchString()
+    public function testDispatchString(): void
     {
         $this->mocked_subscriber->expects($this->once())
                                 ->method('func')
@@ -55,7 +55,7 @@ class EventTest extends TestCase
         $this->dummy_dispatcher->dispatch('visit');
     }
 
-    public function testRemoveListener()
+    public function testRemoveListener(): void
     {
         $this->mocked_subscriber->expects($this->never())
                                 ->method('func')
@@ -66,7 +66,7 @@ class EventTest extends TestCase
         $this->dummy_dispatcher->dispatch('visit');
     }
 
-    public function testParent()
+    public function testParent(): void
     {
         $parent = new DummyEventDispatcher();
         $this->dummy_dispatcher->setParentEventDispatcher($parent);
@@ -79,7 +79,7 @@ class EventTest extends TestCase
         $this->dummy_dispatcher->dispatch('visit');
     }
 
-    public function testEventCapturingInsteadOfBubbling()
+    public function testEventCapturingInsteadOfBubbling(): void
     {
         $parent = new DummyEventDispatcher();
         $this->dummy_dispatcher->setParentEventDispatcher($parent);
@@ -93,7 +93,7 @@ class EventTest extends TestCase
         $this->dummy_dispatcher->dispatch(new Event('visit', null, false));
     }
 
-    public function testParentWhenStoppedInChild()
+    public function testParentWhenStoppedInChild(): void
     {
         $parent = new DummyEventDispatcher();
         $this->dummy_dispatcher->setParentEventDispatcher($parent);
@@ -111,7 +111,7 @@ class EventTest extends TestCase
         $this->dummy_dispatcher->dispatch('visit');
     }
 
-    public function testWhenImmdediatelyStoppedInChild()
+    public function testWhenImmediatelyStoppedInChild(): void
     {
         $this->mocked_subscriber->expects($this->never())
                                 ->method('func')

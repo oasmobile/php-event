@@ -9,7 +9,6 @@
 namespace Oasis\Mlib\UnitTesting;
 
 use Eris\TestTrait;
-use Eris\Generator;
 use Eris\Generators;
 use Oasis\Mlib\Event\Event;
 use Oasis\Mlib\Event\EventDispatcherInterface;
