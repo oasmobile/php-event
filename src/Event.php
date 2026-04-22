@@ -10,19 +10,17 @@ namespace Oasis\Mlib\Event;
 
 class Event
 {
-    /** @var EventDispatcherInterface */
-    protected $target;
-    /** @var EventDispatcherInterface */
-    protected $currentTarget;
+    protected EventDispatcherInterface $target;
+    protected EventDispatcherInterface $currentTarget;
 
-    protected $name;
-    protected $context     = null;
-    protected $bubbles     = true;
-    protected $cancellable = true;
-    protected $cancelled   = false;
+    protected string $name;
+    protected mixed $context = null;
+    protected bool $bubbles = true;
+    protected bool $cancellable = true;
+    protected bool $cancelled = false;
 
-    protected $propogationStopped            = false;
-    protected $propogationStoppedImmediately = false;
+    protected bool $propagationStopped = false;
+    protected bool $propagationStoppedImmediately = false;
 
     /**
      * Create an Event object
@@ -32,26 +30,30 @@ class Event
      * @param bool   $bubbles     whether the Event should bubble (to parent dispatcher)
      * @param bool   $cancellable is the Event cancellable
      */
-    function __construct($name, $context = null, $bubbles = true, $cancellable = true)
-    {
+    public function __construct(
+        string $name,
+        mixed $context = null,
+        bool $bubbles = true,
+        bool $cancellable = true
+    ) {
         $this->name        = $name;
         $this->context     = $context;
         $this->bubbles     = $bubbles;
         $this->cancellable = $cancellable;
     }
 
-    public function stopImmediatePropogation()
+    public function stopImmediatePropagation(): void
     {
-        $this->propogationStopped =
-        $this->propogationStoppedImmediately = true;
+        $this->propagationStopped =
+        $this->propagationStoppedImmediately = true;
     }
 
-    public function stopPropogation()
+    public function stopPropagation(): void
     {
-        $this->propogationStopped = true;
+        $this->propagationStopped = true;
     }
 
-    public function cancel()
+    public function cancel(): void
     {
         if (!$this->cancellable) {
             throw new \LogicException("Cancelling an event which is not cancellable!");
@@ -65,97 +67,63 @@ class Event
     /**
      * alias of Event::cancel()
      */
-    public function preventDefault()
+    public function preventDefault(): void
     {
         $this->cancel();
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getContext()
+    public function getContext(): mixed
     {
         return $this->context;
     }
 
-    /**
-     * @return boolean
-     */
-    public function doesBubble()
+    public function doesBubble(): bool
     {
         return $this->bubbles;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isPropogationStopped()
+    public function isPropagationStopped(): bool
     {
-        return $this->propogationStopped;
+        return $this->propagationStopped;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isPropogationStoppedImmediately()
+    public function isPropagationStoppedImmediately(): bool
     {
-        return $this->propogationStoppedImmediately;
+        return $this->propagationStoppedImmediately;
     }
 
-    /**
-     * @return EventDispatcherInterface
-     */
-    public function getTarget()
+    public function getTarget(): EventDispatcherInterface
     {
         return $this->target;
     }
 
-    /**
-     * @param EventDispatcherInterface $target
-     */
-    public function setTarget($target)
+    public function setTarget(EventDispatcherInterface $target): void
     {
         $this->target = $target;
     }
 
-    /**
-     * @return EventDispatcherInterface
-     */
-    public function getCurrentTarget()
+    public function getCurrentTarget(): EventDispatcherInterface
     {
         return $this->currentTarget;
     }
 
-    /**
-     * @param EventDispatcherInterface $currentTarget
-     */
-    public function setCurrentTarget($currentTarget)
+    public function setCurrentTarget(EventDispatcherInterface $currentTarget): void
     {
         $this->currentTarget = $currentTarget;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isCancelled()
+    public function isCancelled(): bool
     {
         return $this->cancelled;
     }
 
-    /**
-     * @param mixed|null $context
-     */
-    public function setContext($context)
+    public function setContext(mixed $context): void
     {
         $this->context = $context;
     }
-
 }
