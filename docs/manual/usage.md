@@ -75,10 +75,10 @@ $child->dispatch(new Event('click', null, false));
 
 ```php
 // 停止向父/子分发器传播，但当前分发器内后续监听器仍执行
-$event->stopPropogation();
+$event->stopPropagation();
 
 // 立即停止，当前分发器内后续监听器也不再执行
-$event->stopImmediatePropogation();
+$event->stopImmediatePropagation();
 ```
 
 ### 7. 取消事件

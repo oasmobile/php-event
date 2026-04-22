@@ -11,7 +11,7 @@
 ### 构造
 
 ```php
-new Event(string $name, mixed $context = null, bool $bubbles = true, bool $cancellable = true)
+public function __construct(string $name, mixed $context = null, bool $bubbles = true, bool $cancellable = true)
 ```
 
 - `$bubbles = true`：事件从子分发器向父分发器冒泡
@@ -23,21 +23,19 @@ new Event(string $name, mixed $context = null, bool $bubbles = true, bool $cance
 |------|------|
 | `getName(): string` | 事件名称 |
 | `getContext(): mixed` | 事件上下文 |
-| `setContext(mixed $context)` | 设置上下文 |
+| `setContext(mixed $context): void` | 设置上下文 |
 | `doesBubble(): bool` | 是否冒泡 |
 | `isCancelled(): bool` | 是否已取消 |
-| `cancel()` | 取消事件（不可取消时抛 `LogicException`） |
-| `preventDefault()` | `cancel()` 的别名 |
-| `stopPropogation()` | 停止向后续分发器传播 |
-| `stopImmediatePropogation()` | 停止传播，且当前分发器内后续监听器也不再执行 |
-| `isPropogationStopped(): bool` | 传播是否已停止 |
-| `isPropogationStoppedImmediately(): bool` | 是否立即停止 |
+| `cancel(): void` | 取消事件（不可取消时抛 `LogicException`） |
+| `preventDefault(): void` | `cancel()` 的别名 |
+| `stopPropagation(): void` | 停止向后续分发器传播 |
+| `stopImmediatePropagation(): void` | 停止传播，且当前分发器内后续监听器也不再执行 |
+| `isPropagationStopped(): bool` | 传播是否已停止 |
+| `isPropagationStoppedImmediately(): bool` | 是否立即停止 |
 | `getTarget(): EventDispatcherInterface` | 最初触发事件的分发器 |
-| `setTarget($target)` | 由分发器内部调用 |
+| `setTarget(EventDispatcherInterface $target): void` | 由分发器内部调用 |
 | `getCurrentTarget(): EventDispatcherInterface` | 当前正在处理事件的分发器 |
-| `setCurrentTarget($currentTarget)` | 由分发器内部调用 |
-
-> 注：方法名中 `Propogation` 为历史拼写（正确拼写为 Propagation），保持向后兼容。
+| `setCurrentTarget(EventDispatcherInterface $currentTarget): void` | 由分发器内部调用 |
 
 ---
 
@@ -47,19 +45,21 @@ new Event(string $name, mixed $context = null, bool $bubbles = true, bool $cance
 
 | 方法 | 说明 |
 |------|------|
-| `getParentEventDispatcher(): EventDispatcherInterface` | 获取父分发器 |
-| `setParentEventDispatcher(EventDispatcherInterface $parent)` | 设置父分发器 |
-| `dispatch(Event\|string $event, mixed $context = null)` | 分发事件 |
-| `addEventListener(string $name, callable $listener, int $priority = 0)` | 添加监听器（数值越小优先级越高） |
-| `removeEventListener(string $name, callable $listener)` | 移除监听器 |
-| `removeAllEventListeners(string $name = '')` | 移除指定事件（或全部）的所有监听器 |
-| `setDelegateDispatcher($delegate)` | 设置委托分发器 |
+| `getParentEventDispatcher(): ?EventDispatcherInterface` | 获取父分发器 |
+| `setParentEventDispatcher(EventDispatcherInterface $parent): void` | 设置父分发器 |
+| `dispatch(Event\|string $event, mixed $context = null): void` | 分发事件 |
+| `addEventListener(string $name, callable $listener, int $priority = 0): void` | 添加监听器（数值越小优先级越高） |
+| `removeEventListener(string $name, callable $listener): void` | 移除监听器 |
+| `removeAllEventListeners(string $name = ''): void` | 移除指定事件（或全部）的所有监听器 |
+| `setDelegateDispatcher(?EventDispatcherInterface $delegate): void` | 设置委托分发器 |
 
 ---
 
 ## EventDispatcherTrait
 
 `EventDispatcherInterface` 的默认实现，以 trait 形式提供。
+
+使用该 trait 的类必须同时实现 `EventDispatcherInterface`，否则 `dispatch()` 会抛出 `LogicException`。
 
 ### 分发流程
 
@@ -71,7 +71,7 @@ new Event(string $name, mixed $context = null, bool $bubbles = true, bool $cance
    - `bubbles = true`（默认）：子 → 父（冒泡）
    - `bubbles = false`：父 → 子（捕获，链反转）
 6. 依次在链中每个分发器上调用 `doDispatchEvent()`
-7. 任一环节 `isPropogationStopped()` 为 true 时中断
+7. 任一环节 `isPropagationStopped()` 为 true 时中断
 
 ### 监听器优先级
 

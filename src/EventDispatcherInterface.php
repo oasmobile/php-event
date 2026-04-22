@@ -10,31 +10,20 @@ namespace Oasis\Mlib\Event;
 
 interface EventDispatcherInterface
 {
-    /**
-     * @return EventDispatcherInterface
-     */
-    public function getParentEventDispatcher();
+    public function getParentEventDispatcher(): ?EventDispatcherInterface;
 
-    /**
-     * @param EventDispatcherInterface $parent
-     */
-    public function setParentEventDispatcher(EventDispatcherInterface $parent);
+    public function setParentEventDispatcher(EventDispatcherInterface $parent): void;
 
     /**
      * Dispatches a event
-     *
-     * @param Event|string $event
-     * @param mixed        $context
-     *
-     * @return mixed
      */
-    public function dispatch($event, $context = null);
+    public function dispatch(Event|string $event, mixed $context = null): void;
 
-    public function addEventListener($name, callable $listener, $priority = 0);
+    public function addEventListener(string $name, callable $listener, int $priority = 0): void;
 
-    public function removeEventListener($name, callable $listener);
+    public function removeEventListener(string $name, callable $listener): void;
 
-    public function removeAllEventListeners($name = '');
+    public function removeAllEventListeners(string $name = ''): void;
 
-    public function setDelegateDispatcher($delegate);
+    public function setDelegateDispatcher(?EventDispatcherInterface $delegate): void;
 }
