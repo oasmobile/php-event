@@ -16,16 +16,17 @@ description: Spec gatekeeper 校验 tasks 阶段的详细指引。由 spec-gatek
 3. Task 格式校验
 4. Requirement 追溯校验
 5. 依赖与排序校验
-6. Checkpoint 校验
-7. Test-first 校验
-8. Task 粒度校验
-9. 手工测试 Task 校验
-10. Code Review Task 校验
-11. 执行注意事项校验
-12. Socratic Review 校验
-13. 目的性审查
-14. 将修正项写入 Gatekeep Log
-15. Completion：向 main-agent 返回结果
+6. Graphify 跨模块依赖校验（如 `graphify_ready`）
+7. Checkpoint 校验
+8. Test-first 校验
+9. Task 粒度校验
+10. 手工测试 Task 校验
+11. Code Review Task 校验
+12. 执行注意事项校验
+13. Socratic Review 校验
+14. 目的性审查
+15. 将修正项写入 Gatekeep Log
+16. Completion：向 main-agent 返回结果
 
 ---
 
@@ -56,7 +57,7 @@ Feature / Hotfix 的 tasks.md 必须包含 `## Tasks` section，其中的 top-le
 Release spec 的 tasks 结构不同：
 
 - 结构为 task → sub-task → test item 三级嵌套
-- 每个 top-level task 的第一个 sub-task 为 "Increment alpha tag"
+- 手工测试类 top-level task 的第一个 sub-task 为 "Increment alpha tag"
 - 测试项使用 checkbox 语法：`- [ ]` 未测试、`- [x]` 通过、`- [-]` 进行中
 - 明确前置条件（构建命令、环境变量等）
 - 文件包含两个主要 section：
@@ -67,7 +68,7 @@ Release spec 的 tasks 结构不同：
 ### 检查项
 
 - [ ] `## Tasks` section 存在
-- [ ] Release spec 中每个 top-level task 的第一个 sub-task 是 "Increment alpha tag"
+- [ ] Release spec 中手工测试类 top-level task 的第一个 sub-task 是 "Increment alpha tag"
 - [ ] 倒数第一个 top-level task 是 Code Review
 - [ ] 倒数第二个 top-level task 是手工测试（feature / hotfix spec）
 - [ ] 自动化实现 task 排在手工测试和 Code Review 之前
@@ -112,16 +113,35 @@ Release spec 的 tasks 结构不同：
 
 ---
 
-## 6. Checkpoint 校验
+## 6. Graphify 跨模块依赖校验
 
-- [ ] checkpoint 不作为独立的 top-level task，而是作为每个 top-level task 的最后一个 sub-task
-- [ ] 每个 top-level task 的最后一个 sub-task 是 checkpoint
-- [ ] checkpoint 描述中包含具体的验证命令或验证方式（如"执行全量测试确认通过"）
-- [ ] checkpoint 不是空泛的"确认完成"，而是有可执行的验证步骤
+> 仅在 `graphify_ready` 时执行，否则跳过本步骤。
+
+利用 graphify 子命令验证 task 排序是否遗漏了隐含的跨模块依赖：
+
+1. 识别 tasks 涉及的核心模块（从 task 描述中提取类名 / 文件名）
+2. 对每个核心模块执行 `graphify query "what depends on <Module>"` 查询其上下游依赖
+3. 对存在疑似依赖的模块对执行 `graphify path "A" "B"` 确认依赖路径
+4. 对照查询结果，检查 task 排序是否遗漏了隐含的跨模块依赖（如 A 模块的变更会影响 B 模块，但 B 的 task 排在 A 之前）
+
+### 检查项
+
+- [ ] 已对核心模块执行 graphify 依赖查询
+- [ ] task 排序与 graphify 揭示的模块依赖一致，无遗漏的隐含跨模块依赖
+- [ ] 如发现遗漏的依赖，已调整 task 排序或在 task 描述中补充依赖说明
 
 ---
 
-## 7. Test-first 校验
+## 7. Checkpoint 校验
+
+- [ ] checkpoint 不作为独立的 top-level task，而是作为每个 top-level task 的最后一个 sub-task
+- [ ] 每个 top-level task 的最后一个 sub-task 是 checkpoint
+- [ ] checkpoint 描述中包含具体的验证命令或验证方式（如"执行全量测试确认通过"）以及 commit 动作
+- [ ] checkpoint 不是空泛的"确认完成"，而是有可执行的验证步骤和明确的 commit
+
+---
+
+## 8. Test-first 校验
 
 对于新增行为的实现 sub-task，检查是否遵循 test-first 编排：
 
@@ -132,7 +152,7 @@ Release spec 的 tasks 结构不同：
 
 ---
 
-## 8. Task 粒度校验
+## 9. Task 粒度校验
 
 - [ ] 每个 sub-task 足够具体，可以在独立 session 中执行（不依赖上下文继承）
 - [ ] 无过粗的 task（一个 sub-task 包含多个不相关的实现）
@@ -141,7 +161,7 @@ Release spec 的 tasks 结构不同：
 
 ---
 
-## 9. 手工测试 Task 校验
+## 10. 手工测试 Task 校验
 
 - [ ] 手工测试 top-level task 存在
 - [ ] 手工测试覆盖了 requirements 中的关键用户场景
@@ -149,7 +169,7 @@ Release spec 的 tasks 结构不同：
 
 ---
 
-## 10. Code Review Task 校验
+## 11. Code Review Task 校验
 
 - [ ] Code Review 是最后一个 top-level task
 - [ ] 描述为"委托给 code-reviewer sub-agent 执行"或等效表述
@@ -157,22 +177,22 @@ Release spec 的 tasks 结构不同：
 
 ---
 
-## 11. 执行注意事项校验
+## 12. 执行注意事项校验
 
-tasks.md 必须包含 `## Execution Notes` section（位于 `## Tasks` 之后），提醒执行者在执行 task 时应遵循的关键规范。
+tasks.md 必须包含 `## Notes` section（位于 `## Tasks` 之后），提醒执行者在执行 task 时应遵循的关键规范。
 
 ### 检查项
 
-- [ ] `## Execution Notes` section 存在
+- [ ] `## Notes` section 存在
 - [ ] 明确提到执行时须遵循 `spec-execution.md`（或等效表述，如"按 spec-execution 规范执行"）
-- [ ] 明确说明 commit 时机（如"每个 top-level task checkpoint 通过后进行一次 commit"或等效表述）
+- [ ] 明确说明 commit 随 checkpoint 一起执行（或等效表述，如"checkpoint 中已包含 commit"）
 - [ ] 包含当前 spec 特有的执行要点（如特殊的构建命令、环境前置条件、数据兼容注意事项等）——如果 design 或 requirements 中没有特殊要点，至少保留对 `spec-execution.md` 的引用和 commit 时机说明即可
 
-> **注意**：如果文档使用了 `## Notes` 等非标准名称但内容等价，gatekeeper 应将其重命名为 `## Execution Notes` 并补充缺失内容，而非另建一个 section。
+> **注意**：如果文档使用了 `## Execution Notes` 等非标准名称但内容等价，gatekeeper 应将其重命名为 `## Notes` 并补充缺失内容，而非另建一个 section。
 
 ---
 
-## 12. Socratic Review 校验
+## 13. Socratic Review 校验
 
 如果文档缺少 `## Socratic Review` section，gatekeeper 应补充一个轻量版，至少覆盖：
 
@@ -187,7 +207,7 @@ tasks.md 必须包含 `## Execution Notes` section（位于 `## Tasks` 之后）
 
 ---
 
-## 13. 目的性审查
+## 14. 目的性审查
 
 完成逐项校验后，退后一步，审视文档整体是否达到了 tasks 阶段的目的。
 
@@ -205,13 +225,13 @@ Tasks 的核心目的是：**提供一份可直接执行的实现计划，让执
 
 ---
 
-## 14. Gatekeep Log
+## 15. Gatekeep Log
 
 将校验过程中的修正项写入 tasks.md 末尾的 `## Gatekeep Log` section。
 
 ---
 
-## 15. Completion
+## 16. Completion
 
 Gatekeeper 完成所有校验和修正后，向 main-agent 返回以下内容：
 
