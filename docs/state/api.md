@@ -11,11 +11,18 @@
 ### 构造
 
 ```php
-public function __construct(string $name, mixed $context = null, bool $bubbles = true, bool $cancellable = true)
+public function __construct(
+    protected readonly string $name,
+    protected mixed $context = null,
+    protected readonly bool $bubbles = true,
+    protected readonly bool $cancellable = true,
+) {}
 ```
 
-- `$bubbles = true`：事件从子分发器向父分发器冒泡
+- `$name`：事件名称（`readonly`，构造后不可变）
+- `$bubbles = true`：事件从子分发器向父分发器冒泡（`readonly`）
 - `$bubbles = false`：事件从最顶层父分发器向子分发器捕获
+- `$cancellable = true`：是否允许取消（`readonly`）
 
 ### 方法
 
@@ -80,6 +87,4 @@ public function __construct(string $name, mixed $context = null, bool $bubbles =
 
 ### 监听器比较（removeEventListener）
 
-- 字符串回调：`==` 比较
-- 数组回调（`[$obj, 'method']`）：逐元素 `==` 比较
-- 其它：`===` 严格比较
+- 统一使用 `!==` 严格比较（字符串、数组、Closure 均适用）

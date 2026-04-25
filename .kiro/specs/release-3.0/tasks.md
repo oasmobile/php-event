@@ -71,7 +71,7 @@
     - 通过后 commit（消息包含 Task 3 范围说明）
     - 如有问题请向用户确认
 
-- [-] 4. 测试文件语法现代化（Req 5）
+- [x] 4. 测试文件语法现代化（Req 5）
   - [x] 4.1 检查并应用测试文件的 PHP 8.1/8.2 语法升级
     - 检查 `ut/EventTest.php` 和 `ut/EventPropertyTest.php` 是否有 constructor promotion 机会（测试辅助类的构造函数）
     - 检查是否有 `call_user_func()` 调用需要替换
@@ -79,21 +79,21 @@
     - 注意：两个测试文件已使用现代语法（intersection types、first-class callable 等），预计变更极少
     - 运行全量测试 `vendor/bin/phpunit`，确认无错误和 deprecation warning
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 7.2_
-  - [-] 4.2 Checkpoint — 确认测试文件现代化完成
+  - [x] 4.2 Checkpoint — 确认测试文件现代化完成
     - 运行 `vendor/bin/phpunit`，确认全部测试通过且无 deprecation warning
     - 通过后 commit（消息包含 Task 4 范围说明）
     - 如有问题请向用户确认
 
-- [ ] 5. SSOT 文档更新（Req 8）
-  - [~] 5.1 更新 `docs/state/architecture.md`
+- [-] 5. SSOT 文档更新（Req 8）
+  - [x] 5.1 更新 `docs/state/architecture.md`
     - 技术选型 section：新增说明"代码使用 PHP 8.1/8.2 现代语法（constructor promotion、readonly properties）"
     - _Requirements: 8.1_
-  - [~] 5.2 更新 `docs/state/api.md`
+  - [x] 5.2 更新 `docs/state/api.md`
     - Event section —「构造」代码块：更新构造函数签名，体现 promoted parameters 和 readonly（如 `protected readonly string $name`）
     - Event section —「构造」下方说明：在 `$bubbles` 和 `$cancellable` 的说明旁注明 `readonly`；新增 `$name` 为 `readonly` 的说明
     - EventDispatcherTrait section —「监听器比较（removeEventListener）」：更新比较逻辑说明，从"字符串 `==` / 数组逐元素 `==` / 其它 `===`"改为"统一使用 `!==` 严格比较"
     - _Requirements: 8.2, 8.3_
-  - [~] 5.3 Checkpoint — 确认 SSOT 文档更新完成
+  - [-] 5.3 Checkpoint — 确认 SSOT 文档更新完成
     - Review 更新后的 state 文档，确认与实际代码状态一致
     - 通过后 commit（消息包含 Task 5 范围说明）
     - 如有问题请向用户确认
