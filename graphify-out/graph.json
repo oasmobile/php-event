@@ -1,0 +1,397 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {
+    "name": "oasis/event knowledge graph",
+    "version": "2.0.0",
+    "generated": "2026-04-25"
+  },
+  "nodes": [
+    {
+      "id": "Event",
+      "type": "class",
+      "file": "src/Event.php",
+      "namespace": "Oasis\\Mlib\\Event",
+      "description": "事件值对象，承载事件名称、上下文数据及传播控制状态",
+      "community": 0
+    },
+    {
+      "id": "EventDispatcherInterface",
+      "type": "interface",
+      "file": "src/EventDispatcherInterface.php",
+      "namespace": "Oasis\\Mlib\\Event",
+      "description": "分发器必须实现的接口，定义分发、监听器管理、父子关系和委托",
+      "community": 0
+    },
+    {
+      "id": "EventDispatcherTrait",
+      "type": "trait",
+      "file": "src/EventDispatcherTrait.php",
+      "namespace": "Oasis\\Mlib\\Event",
+      "description": "EventDispatcherInterface 的默认实现，以 trait 形式提供",
+      "community": 0
+    },
+    {
+      "id": "Event::__construct",
+      "type": "method",
+      "parent": "Event",
+      "signature": "__construct(string $name, mixed $context = null, bool $bubbles = true, bool $cancellable = true)",
+      "community": 0
+    },
+    {
+      "id": "Event::getName",
+      "type": "method",
+      "parent": "Event",
+      "signature": "getName(): string",
+      "community": 0
+    },
+    {
+      "id": "Event::getContext",
+      "type": "method",
+      "parent": "Event",
+      "signature": "getContext(): mixed",
+      "community": 0
+    },
+    {
+      "id": "Event::setContext",
+      "type": "method",
+      "parent": "Event",
+      "signature": "setContext(mixed $context): void",
+      "community": 0
+    },
+    {
+      "id": "Event::doesBubble",
+      "type": "method",
+      "parent": "Event",
+      "signature": "doesBubble(): bool",
+      "community": 0
+    },
+    {
+      "id": "Event::cancel",
+      "type": "method",
+      "parent": "Event",
+      "signature": "cancel(): void",
+      "community": 0
+    },
+    {
+      "id": "Event::preventDefault",
+      "type": "method",
+      "parent": "Event",
+      "signature": "preventDefault(): void",
+      "community": 0
+    },
+    {
+      "id": "Event::isCancelled",
+      "type": "method",
+      "parent": "Event",
+      "signature": "isCancelled(): bool",
+      "community": 0
+    },
+    {
+      "id": "Event::stopPropagation",
+      "type": "method",
+      "parent": "Event",
+      "signature": "stopPropagation(): void",
+      "community": 0
+    },
+    {
+      "id": "Event::stopImmediatePropagation",
+      "type": "method",
+      "parent": "Event",
+      "signature": "stopImmediatePropagation(): void",
+      "community": 0
+    },
+    {
+      "id": "Event::isPropagationStopped",
+      "type": "method",
+      "parent": "Event",
+      "signature": "isPropagationStopped(): bool",
+      "community": 0
+    },
+    {
+      "id": "Event::isPropagationStoppedImmediately",
+      "type": "method",
+      "parent": "Event",
+      "signature": "isPropagationStoppedImmediately(): bool",
+      "community": 0
+    },
+    {
+      "id": "Event::getTarget",
+      "type": "method",
+      "parent": "Event",
+      "signature": "getTarget(): EventDispatcherInterface",
+      "community": 0
+    },
+    {
+      "id": "Event::setTarget",
+      "type": "method",
+      "parent": "Event",
+      "signature": "setTarget(EventDispatcherInterface $target): void",
+      "community": 0
+    },
+    {
+      "id": "Event::getCurrentTarget",
+      "type": "method",
+      "parent": "Event",
+      "signature": "getCurrentTarget(): EventDispatcherInterface",
+      "community": 0
+    },
+    {
+      "id": "Event::setCurrentTarget",
+      "type": "method",
+      "parent": "Event",
+      "signature": "setCurrentTarget(EventDispatcherInterface $currentTarget): void",
+      "community": 0
+    },
+    {
+      "id": "EDI::dispatch",
+      "type": "method",
+      "parent": "EventDispatcherInterface",
+      "signature": "dispatch(Event|string $event, mixed $context = null): void",
+      "community": 0
+    },
+    {
+      "id": "EDI::addEventListener",
+      "type": "method",
+      "parent": "EventDispatcherInterface",
+      "signature": "addEventListener(string $name, callable $listener, int $priority = 0): void",
+      "community": 0
+    },
+    {
+      "id": "EDI::removeEventListener",
+      "type": "method",
+      "parent": "EventDispatcherInterface",
+      "signature": "removeEventListener(string $name, callable $listener): void",
+      "community": 0
+    },
+    {
+      "id": "EDI::removeAllEventListeners",
+      "type": "method",
+      "parent": "EventDispatcherInterface",
+      "signature": "removeAllEventListeners(string $name = ''): void",
+      "community": 0
+    },
+    {
+      "id": "EDI::getParentEventDispatcher",
+      "type": "method",
+      "parent": "EventDispatcherInterface",
+      "signature": "getParentEventDispatcher(): ?EventDispatcherInterface",
+      "community": 0
+    },
+    {
+      "id": "EDI::setParentEventDispatcher",
+      "type": "method",
+      "parent": "EventDispatcherInterface",
+      "signature": "setParentEventDispatcher(EventDispatcherInterface $parent): void",
+      "community": 0
+    },
+    {
+      "id": "EDI::setDelegateDispatcher",
+      "type": "method",
+      "parent": "EventDispatcherInterface",
+      "signature": "setDelegateDispatcher(?EventDispatcherInterface $delegate): void",
+      "community": 0
+    },
+    {
+      "id": "EDT::doDispatchEvent",
+      "type": "method",
+      "parent": "EventDispatcherTrait",
+      "signature": "doDispatchEvent(Event $event): void",
+      "visibility": "protected",
+      "community": 0
+    },
+    {
+      "id": "BubblingMechanism",
+      "type": "concept",
+      "description": "事件从子分发器向父分发器冒泡传播（bubbles=true）",
+      "community": 0
+    },
+    {
+      "id": "CapturingMechanism",
+      "type": "concept",
+      "description": "事件从最顶层父分发器向子分发器捕获传播（bubbles=false）",
+      "community": 0
+    },
+    {
+      "id": "PropagationControl",
+      "type": "concept",
+      "description": "通过 stopPropagation / stopImmediatePropagation 控制事件在分发链中的传播",
+      "community": 0
+    },
+    {
+      "id": "DelegateDispatcher",
+      "type": "concept",
+      "description": "委托分发器机制：设置 delegate 后，dispatch 转发给 delegate 而非本地处理",
+      "community": 0
+    },
+    {
+      "id": "ListenerPriority",
+      "type": "concept",
+      "description": "监听器优先级：数值越小越先执行（ksort 排序），同优先级按添加顺序",
+      "community": 0
+    },
+    {
+      "id": "ParentChildChain",
+      "type": "concept",
+      "description": "分发器的父子链：通过 setParentEventDispatcher 建立，dispatch 时沿链传播",
+      "community": 0
+    },
+    {
+      "id": "EventTest",
+      "type": "test_class",
+      "file": "ut/EventTest.php",
+      "namespace": "Oasis\\Mlib\\UnitTesting",
+      "description": "Event 和 EventDispatcher 的 example-based 单元测试",
+      "community": 1
+    },
+    {
+      "id": "EventPropertyTest",
+      "type": "test_class",
+      "file": "ut/EventPropertyTest.php",
+      "namespace": "Oasis\\Mlib\\UnitTesting",
+      "description": "Property-based 测试，使用 Eris 库，每个 property 100+ 次迭代",
+      "community": 1
+    },
+    {
+      "id": "DummyEventDispatcher",
+      "type": "test_helper",
+      "file": "ut/EventTest.php",
+      "description": "测试替身：implements EventDispatcherInterface + use EventDispatcherTrait",
+      "community": 1
+    },
+    {
+      "id": "PBTEventDispatcher",
+      "type": "test_helper",
+      "file": "ut/EventPropertyTest.php",
+      "description": "PBT 测试替身：implements EventDispatcherInterface + use EventDispatcherTrait",
+      "community": 1
+    },
+    {
+      "id": "EventSubscriberStub",
+      "type": "test_helper",
+      "file": "ut/EventTest.php",
+      "description": "Mock 接口：定义 func(Event) 方法用于 mock 验证",
+      "community": 1
+    },
+    {
+      "id": "ComposerConfig",
+      "type": "config",
+      "file": "composer.json",
+      "description": "Composer 包定义：oasis/event，PHP >=8.2，PHPUnit ^11.0，Eris ^1.1",
+      "community": 2
+    },
+    {
+      "id": "PHPUnitConfig",
+      "type": "config",
+      "file": "phpunit.xml",
+      "description": "PHPUnit 11 配置：schema 11.0，bootstrap vendor/autoload.php，扫描 ut/ 目录",
+      "community": 2
+    },
+    {
+      "id": "StateArchitecture",
+      "type": "document",
+      "file": "docs/state/architecture.md",
+      "description": "SSOT：架构与工程约束（技术选型、分层结构、测试策略）",
+      "community": 3
+    },
+    {
+      "id": "StateAPI",
+      "type": "document",
+      "file": "docs/state/api.md",
+      "description": "SSOT：API 定义（Event、EventDispatcherInterface、EventDispatcherTrait 的完整方法签名）",
+      "community": 3
+    },
+    {
+      "id": "Spec_release-2.0.0",
+      "type": "spec",
+      "directory": "docs/changes/2.0.0/specs/release-2.0.0/",
+      "description": "v2.0.0 release spec：PHP 8 升级（类型声明、拼写修正、PHPUnit 11 迁移）",
+      "community": 4
+    },
+    {
+      "id": "Changelog_2.0.0",
+      "type": "document",
+      "file": "docs/changes/2.0.0/CHANGELOG.md",
+      "description": "v2.0.0 变更日志：breaking changes、added、changed、tests",
+      "community": 4
+    }
+  ],
+  "edges": [
+    {"source": "EventDispatcherTrait", "target": "EventDispatcherInterface", "relation": "implements", "label": "trait 提供接口的默认实现"},
+    {"source": "EventDispatcherTrait", "target": "Event", "relation": "depends_on", "label": "dispatch() 创建/操作 Event 对象"},
+    {"source": "Event", "target": "EventDispatcherInterface", "relation": "depends_on", "label": "target/currentTarget 属性类型为 EventDispatcherInterface"},
+    {"source": "EventDispatcherInterface", "target": "Event", "relation": "depends_on", "label": "dispatch() 参数接受 Event|string"},
+
+    {"source": "EDT::doDispatchEvent", "target": "Event::getName", "relation": "calls", "label": "查找事件名对应的监听器"},
+    {"source": "EDT::doDispatchEvent", "target": "Event::setCurrentTarget", "relation": "calls", "label": "设置当前处理分发器"},
+    {"source": "EDT::doDispatchEvent", "target": "Event::isPropagationStoppedImmediately", "relation": "calls", "label": "检查是否立即停止"},
+    {"source": "EventDispatcherTrait", "target": "Event::setTarget", "relation": "calls", "label": "dispatch() 设置 target"},
+    {"source": "EventDispatcherTrait", "target": "Event::setContext", "relation": "calls", "label": "dispatch() 可覆盖 context"},
+    {"source": "EventDispatcherTrait", "target": "Event::doesBubble", "relation": "calls", "label": "dispatch() 判断冒泡/捕获"},
+    {"source": "EventDispatcherTrait", "target": "Event::isPropagationStopped", "relation": "calls", "label": "dispatch() 检查传播是否停止"},
+
+    {"source": "Event::preventDefault", "target": "Event::cancel", "relation": "alias", "label": "preventDefault() 是 cancel() 的别名"},
+
+    {"source": "Event::stopImmediatePropagation", "target": "PropagationControl", "relation": "realizes", "label": "停止传播 + 当前分发器内后续监听器也不执行"},
+    {"source": "Event::stopPropagation", "target": "PropagationControl", "relation": "realizes", "label": "停止向后续分发器传播"},
+    {"source": "Event::doesBubble", "target": "BubblingMechanism", "relation": "realizes", "label": "bubbles=true 时冒泡"},
+    {"source": "Event::doesBubble", "target": "CapturingMechanism", "relation": "realizes", "label": "bubbles=false 时捕获"},
+    {"source": "EventDispatcherTrait", "target": "BubblingMechanism", "relation": "realizes", "label": "dispatch() 构建子→父链"},
+    {"source": "EventDispatcherTrait", "target": "CapturingMechanism", "relation": "realizes", "label": "dispatch() 反转链为父→子"},
+    {"source": "EventDispatcherTrait", "target": "DelegateDispatcher", "relation": "realizes", "label": "dispatch() 转发给 delegate"},
+    {"source": "EventDispatcherTrait", "target": "ListenerPriority", "relation": "realizes", "label": "addEventListener() ksort 排序"},
+    {"source": "EventDispatcherTrait", "target": "ParentChildChain", "relation": "realizes", "label": "dispatch() 沿父子链传播"},
+
+    {"source": "DummyEventDispatcher", "target": "EventDispatcherInterface", "relation": "implements", "label": "测试替身实现接口"},
+    {"source": "DummyEventDispatcher", "target": "EventDispatcherTrait", "relation": "uses_trait", "label": "测试替身使用 trait"},
+    {"source": "PBTEventDispatcher", "target": "EventDispatcherInterface", "relation": "implements", "label": "PBT 测试替身实现接口"},
+    {"source": "PBTEventDispatcher", "target": "EventDispatcherTrait", "relation": "uses_trait", "label": "PBT 测试替身使用 trait"},
+
+    {"source": "EventTest", "target": "Event", "relation": "tests", "label": "example-based 测试"},
+    {"source": "EventTest", "target": "EventDispatcherTrait", "relation": "tests", "label": "通过 DummyEventDispatcher 测试 trait 行为"},
+    {"source": "EventTest", "target": "DummyEventDispatcher", "relation": "uses", "label": "测试中使用的分发器实例"},
+    {"source": "EventTest", "target": "EventSubscriberStub", "relation": "uses", "label": "mock 监听器"},
+
+    {"source": "EventPropertyTest", "target": "Event", "relation": "tests", "label": "property-based 测试"},
+    {"source": "EventPropertyTest", "target": "EventDispatcherTrait", "relation": "tests", "label": "通过 PBTEventDispatcher 测试 trait 行为"},
+    {"source": "EventPropertyTest", "target": "PBTEventDispatcher", "relation": "uses", "label": "PBT 测试中使用的分发器实例"},
+
+    {"source": "StateAPI", "target": "Event", "relation": "documents", "label": "记录 Event 的完整 API"},
+    {"source": "StateAPI", "target": "EventDispatcherInterface", "relation": "documents", "label": "记录接口的完整 API"},
+    {"source": "StateAPI", "target": "EventDispatcherTrait", "relation": "documents", "label": "记录 trait 的分发流程和行为"},
+    {"source": "StateArchitecture", "target": "ComposerConfig", "relation": "documents", "label": "记录技术选型和依赖"},
+
+    {"source": "Spec_release-2.0.0", "target": "Event", "relation": "modifies", "label": "类型声明 + 拼写修正"},
+    {"source": "Spec_release-2.0.0", "target": "EventDispatcherInterface", "relation": "modifies", "label": "类型声明"},
+    {"source": "Spec_release-2.0.0", "target": "EventDispatcherTrait", "relation": "modifies", "label": "类型声明 + 拼写修正 + 安全约束"},
+    {"source": "Spec_release-2.0.0", "target": "ComposerConfig", "relation": "modifies", "label": "PHP >=8.2, PHPUnit ^11.0"},
+    {"source": "Spec_release-2.0.0", "target": "PHPUnitConfig", "relation": "modifies", "label": "schema 升级到 11.0"},
+    {"source": "Changelog_2.0.0", "target": "Spec_release-2.0.0", "relation": "records", "label": "记录 spec 的变更内容"}
+  ],
+  "hyperedges": [
+    {
+      "id": "HE_dispatch_flow",
+      "label": "事件分发流程",
+      "nodes": ["EventDispatcherTrait", "Event", "BubblingMechanism", "CapturingMechanism", "PropagationControl", "ParentChildChain", "DelegateDispatcher"],
+      "description": "dispatch() 的完整流程：字符串包装 → delegate 检查 → 构建分发链（冒泡/捕获） → 逐节点 doDispatchEvent → 传播控制"
+    },
+    {
+      "id": "HE_listener_lifecycle",
+      "label": "监听器生命周期",
+      "nodes": ["EventDispatcherTrait", "ListenerPriority", "EDT::doDispatchEvent"],
+      "description": "addEventListener 注册 → ksort 排序 → doDispatchEvent 按优先级执行 → removeEventListener/removeAllEventListeners 移除"
+    },
+    {
+      "id": "HE_event_state",
+      "label": "Event 状态管理",
+      "nodes": ["Event", "PropagationControl", "Event::cancel", "Event::preventDefault"],
+      "description": "Event 对象的可变状态：context 读写、cancel/preventDefault 取消、stopPropagation/stopImmediatePropagation 传播控制"
+    },
+    {
+      "id": "HE_test_coverage",
+      "label": "测试覆盖体系",
+      "nodes": ["EventTest", "EventPropertyTest", "DummyEventDispatcher", "PBTEventDispatcher", "EventSubscriberStub"],
+      "description": "example-based 测试（EventTest）+ property-based 测试（EventPropertyTest），通过测试替身验证 Event 和 Trait 行为"
+    }
+  ]
+}
