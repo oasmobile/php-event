@@ -19,7 +19,6 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
-use ReflectionProperty;
 
 class EventStructureTest extends TestCase
 {
