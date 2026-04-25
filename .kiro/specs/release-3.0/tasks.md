@@ -6,7 +6,7 @@
 
 ## Tasks
 
-- [-] 1. Event 类 constructor promotion + readonly（Req 1 + Req 2）
+- [x] 1. Event 类 constructor promotion + readonly（Req 1 + Req 2）
   - [x] 1.1 创建 Smoke Tests 文件 `ut/EventStructureTest.php`（test-first）
     - 创建 `ut/EventStructureTest.php`，使用 Reflection API 编写结构验证测试
     - 验证构造函数参数是否为 promoted（`ReflectionParameter::isPromoted()`）
@@ -27,13 +27,13 @@
     - 非 promoted 属性（`$target`、`$currentTarget`、`$cancelled`、`$propagationStopped`、`$propagationStoppedImmediately`）保持原样
     - 运行全量测试 `vendor/bin/phpunit`，确认 Smoke Tests 通过且无回归
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2.1, 2.2, 2.3, 2.4, 2.5, 7.1, 7.2, 7.3_
-  - [-] 1.3 Checkpoint — 确认 Event 类变更完成
+  - [x] 1.3 Checkpoint — 确认 Event 类变更完成
     - 运行 `vendor/bin/phpunit`，确认全部测试通过且无 deprecation warning
     - 通过后 commit（消息包含 Task 1 范围说明）
     - 如有问题请向用户确认
 
-- [ ] 2. EventDispatcherTrait 调用与比较现代化（Req 3）
-  - [~] 2.1 编写 Example-Based Tests 和 PBT（test-first）
+- [-] 2. EventDispatcherTrait 调用与比较现代化（Req 3）
+  - [x] 2.1 编写 Example-Based Tests 和 PBT（test-first）
     - 在 `ut/EventTest.php` 中新增 Example-Based Tests，验证回调比较逻辑：
       - 字符串回调的添加与移除（`addEventListener('e', 'func')` → `removeEventListener('e', 'func')` → dispatch 不触发）
       - 数组回调（同一对象引用）的添加与移除
@@ -45,13 +45,13 @@
     - 每个 PBT 使用 Eris 生成器，Tag 格式：`// Feature: release-3.0, Property {N}: {property_text}`
     - 运行新增测试确认在当前代码上 PASS（当前 `==` 比较在正常使用场景下与 `===` 行为一致）
     - _Requirements: 3.2, 3.3_
-  - [~] 2.2 实现 EventDispatcherTrait 代码变更
+  - [x] 2.2 实现 EventDispatcherTrait 代码变更
     - 在 `doDispatchEvent()` 中将 `call_user_func($callback, $event)` 替换为 `$callback($event)`
     - 在 `removeEventListener()` 中将 `$comp` 闭包和 `!$comp($callback, $listener)` 替换为直接的 `$callback !== $listener` 严格比较
     - 移除 `$comp` 闭包定义
     - 运行全量测试 `vendor/bin/phpunit`，确认所有测试通过
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 7.1, 7.2, 7.5_
-  - [~] 2.3 Checkpoint — 确认 EventDispatcherTrait 变更完成
+  - [-] 2.3 Checkpoint — 确认 EventDispatcherTrait 变更完成
     - 运行 `vendor/bin/phpunit`，确认全部测试通过且无 deprecation warning
     - 通过后 commit（消息包含 Task 2 范围说明）
     - 如有问题请向用户确认
