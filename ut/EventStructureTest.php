@@ -13,6 +13,7 @@ namespace Oasis\Mlib\UnitTesting;
 
 use Oasis\Mlib\Event\Event;
 use Oasis\Mlib\Event\EventDispatcherInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -37,9 +38,7 @@ class EventStructureTest extends TestCase
     // 1. Constructor parameters are promoted (Req 1.1-1.4, 1.6)
     // =========================================================================
 
-    /**
-     * @dataProvider promotedParameterProvider
-     */
+    #[DataProvider('promotedParameterProvider')]
     public function testConstructorParameterIsPromoted(string $paramName): void
     {
         $param = $this->getConstructorParameter($paramName);
@@ -63,9 +62,7 @@ class EventStructureTest extends TestCase
     // 2. $name, $bubbles, $cancellable are readonly (Req 2.1-2.3)
     // =========================================================================
 
-    /**
-     * @dataProvider readonlyPropertyProvider
-     */
+    #[DataProvider('readonlyPropertyProvider')]
     public function testPropertyIsReadonly(string $propName): void
     {
         $prop = $this->eventRef->getProperty($propName);
@@ -101,9 +98,7 @@ class EventStructureTest extends TestCase
     // 4. Lifecycle properties are NOT readonly (Req 2.5)
     // =========================================================================
 
-    /**
-     * @dataProvider lifecyclePropertyProvider
-     */
+    #[DataProvider('lifecyclePropertyProvider')]
     public function testLifecyclePropertyIsNotReadonly(string $propName): void
     {
         $prop = $this->eventRef->getProperty($propName);

@@ -56,7 +56,7 @@
     - 通过后 commit（消息包含 Task 2 范围说明）
     - 如有问题请向用户确认
 
-- [-] 3. 冗余 PHPDoc 移除（Req 4）
+- [x] 3. 冗余 PHPDoc 移除（Req 4）
   - [x] 3.1 集中清理所有文件的 PHPDoc
     - `src/Event.php`：移除文件头 `Created by PhpStorm` 注释块；移除构造函数 `@param` PHPDoc block
     - `src/EventDispatcherInterface.php`：移除文件头 `Created by PhpStorm` 注释块；移除 `dispatch()` 方法上方的 `/** Dispatches a event */` PHPDoc block
@@ -66,20 +66,20 @@
     - `src/Event.php` 中 `preventDefault()` 的 `/** alias of Event::cancel() */` 保留（描述性文本）
     - 运行全量测试 `vendor/bin/phpunit`，确认无回归
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 5.3_
-  - [-] 3.2 Checkpoint — 确认 PHPDoc 清理完成
+  - [x] 3.2 Checkpoint — 确认 PHPDoc 清理完成
     - 运行 `vendor/bin/phpunit`，确认全部测试通过且无 deprecation warning
     - 通过后 commit（消息包含 Task 3 范围说明）
     - 如有问题请向用户确认
 
-- [ ] 4. 测试文件语法现代化（Req 5）
-  - [~] 4.1 检查并应用测试文件的 PHP 8.1/8.2 语法升级
+- [-] 4. 测试文件语法现代化（Req 5）
+  - [x] 4.1 检查并应用测试文件的 PHP 8.1/8.2 语法升级
     - 检查 `ut/EventTest.php` 和 `ut/EventPropertyTest.php` 是否有 constructor promotion 机会（测试辅助类的构造函数）
     - 检查是否有 `call_user_func()` 调用需要替换
     - 检查是否有其它 PHP 8.1/8.2 语法升级机会
     - 注意：两个测试文件已使用现代语法（intersection types、first-class callable 等），预计变更极少
     - 运行全量测试 `vendor/bin/phpunit`，确认无错误和 deprecation warning
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 7.2_
-  - [~] 4.2 Checkpoint — 确认测试文件现代化完成
+  - [-] 4.2 Checkpoint — 确认测试文件现代化完成
     - 运行 `vendor/bin/phpunit`，确认全部测试通过且无 deprecation warning
     - 通过后 commit（消息包含 Task 4 范围说明）
     - 如有问题请向用户确认
