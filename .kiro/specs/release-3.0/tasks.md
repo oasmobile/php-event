@@ -32,7 +32,7 @@
     - 通过后 commit（消息包含 Task 1 范围说明）
     - 如有问题请向用户确认
 
-- [-] 2. EventDispatcherTrait 调用与比较现代化（Req 3）
+- [x] 2. EventDispatcherTrait 调用与比较现代化（Req 3）
   - [x] 2.1 编写 Example-Based Tests 和 PBT（test-first）
     - 在 `ut/EventTest.php` 中新增 Example-Based Tests，验证回调比较逻辑：
       - 字符串回调的添加与移除（`addEventListener('e', 'func')` → `removeEventListener('e', 'func')` → dispatch 不触发）
@@ -51,13 +51,13 @@
     - 移除 `$comp` 闭包定义
     - 运行全量测试 `vendor/bin/phpunit`，确认所有测试通过
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 7.1, 7.2, 7.5_
-  - [-] 2.3 Checkpoint — 确认 EventDispatcherTrait 变更完成
+  - [x] 2.3 Checkpoint — 确认 EventDispatcherTrait 变更完成
     - 运行 `vendor/bin/phpunit`，确认全部测试通过且无 deprecation warning
     - 通过后 commit（消息包含 Task 2 范围说明）
     - 如有问题请向用户确认
 
-- [ ] 3. 冗余 PHPDoc 移除（Req 4）
-  - [~] 3.1 集中清理所有文件的 PHPDoc
+- [-] 3. 冗余 PHPDoc 移除（Req 4）
+  - [x] 3.1 集中清理所有文件的 PHPDoc
     - `src/Event.php`：移除文件头 `Created by PhpStorm` 注释块；移除构造函数 `@param` PHPDoc block
     - `src/EventDispatcherInterface.php`：移除文件头 `Created by PhpStorm` 注释块；移除 `dispatch()` 方法上方的 `/** Dispatches a event */` PHPDoc block
     - `src/EventDispatcherTrait.php`：移除文件头 `Created by PhpStorm` 注释块；保留 class-level `@phpstan-require-implements` PHPDoc；保留 `$eventListeners` 的 `@var` PHPDoc
@@ -66,7 +66,7 @@
     - `src/Event.php` 中 `preventDefault()` 的 `/** alias of Event::cancel() */` 保留（描述性文本）
     - 运行全量测试 `vendor/bin/phpunit`，确认无回归
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 5.3_
-  - [~] 3.2 Checkpoint — 确认 PHPDoc 清理完成
+  - [-] 3.2 Checkpoint — 确认 PHPDoc 清理完成
     - 运行 `vendor/bin/phpunit`，确认全部测试通过且无 deprecation warning
     - 通过后 commit（消息包含 Task 3 范围说明）
     - 如有问题请向用户确认

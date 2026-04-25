@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: minhao
- * Date: 2015-09-28
- * Time: 19:18
- */
 
 namespace Oasis\Mlib\UnitTesting;
 

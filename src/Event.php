@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: minhao
- * Date: 2015-09-28
- * Time: 18:25
- */
 
 namespace Oasis\Mlib\Event;
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: minhao
- * Date: 2015-09-28
- * Time: 18:25
- */
 
 namespace Oasis\Mlib\Event;
 
@@ -14,9 +8,6 @@ interface EventDispatcherInterface
 
     public function setParentEventDispatcher(EventDispatcherInterface $parent): void;
 
-    /**
-     * Dispatches a event
-     */
     public function dispatch(Event|string $event, mixed $context = null): void;
 
     public function addEventListener(string $name, callable $listener, int $priority = 0): void;
