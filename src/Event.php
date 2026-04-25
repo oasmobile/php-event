@@ -13,34 +13,17 @@ class Event
     protected EventDispatcherInterface $target;
     protected EventDispatcherInterface $currentTarget;
 
-    protected string $name;
-    protected mixed $context = null;
-    protected bool $bubbles = true;
-    protected bool $cancellable = true;
     protected bool $cancelled = false;
 
     protected bool $propagationStopped = false;
     protected bool $propagationStoppedImmediately = false;
 
-    /**
-     * Create an Event object
-     *
-     * @param string $name        name of the Event
-     * @param mixed  $context     context of the Event
-     * @param bool   $bubbles     whether the Event should bubble (to parent dispatcher)
-     * @param bool   $cancellable is the Event cancellable
-     */
     public function __construct(
-        string $name,
-        mixed $context = null,
-        bool $bubbles = true,
-        bool $cancellable = true
-    ) {
-        $this->name        = $name;
-        $this->context     = $context;
-        $this->bubbles     = $bubbles;
-        $this->cancellable = $cancellable;
-    }
+        protected readonly string $name,
+        protected mixed $context = null,
+        protected readonly bool $bubbles = true,
+        protected readonly bool $cancellable = true,
+    ) {}
 
     public function stopImmediatePropagation(): void
     {

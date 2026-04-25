@@ -6,8 +6,8 @@
 
 ## Tasks
 
-- [ ] 1. Event 类 constructor promotion + readonly（Req 1 + Req 2）
-  - [ ] 1.1 创建 Smoke Tests 文件 `ut/EventStructureTest.php`（test-first）
+- [-] 1. Event 类 constructor promotion + readonly（Req 1 + Req 2）
+  - [x] 1.1 创建 Smoke Tests 文件 `ut/EventStructureTest.php`（test-first）
     - 创建 `ut/EventStructureTest.php`，使用 Reflection API 编写结构验证测试
     - 验证构造函数参数是否为 promoted（`ReflectionParameter::isPromoted()`）
     - 验证 `$name`、`$bubbles`、`$cancellable` 是否为 readonly（`ReflectionProperty::isReadOnly()`）
@@ -18,7 +18,7 @@
     - 确认未引入 `enum`、intersection/DNF types、Fiber 相关变更（排除确认）
     - 此时运行测试应 FAIL（当前代码未使用 promotion/readonly）
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2.1, 2.2, 2.3, 2.4, 2.5, 6.1, 6.2, 6.3, 6.4, 6.5, 7.3, 7.4_
-  - [ ] 1.2 实现 Event 类 constructor promotion + readonly
+  - [x] 1.2 实现 Event 类 constructor promotion + readonly
     - 将 `$name`、`$context`、`$bubbles`、`$cancellable` 改为 promoted parameters
     - 为 `$name`、`$bubbles`、`$cancellable` 添加 `readonly` 修饰符（`protected readonly`）
     - `$context` 使用 `protected`（无 readonly，因 `setContext()` 需要修改）
@@ -27,13 +27,13 @@
     - 非 promoted 属性（`$target`、`$currentTarget`、`$cancelled`、`$propagationStopped`、`$propagationStoppedImmediately`）保持原样
     - 运行全量测试 `vendor/bin/phpunit`，确认 Smoke Tests 通过且无回归
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2.1, 2.2, 2.3, 2.4, 2.5, 7.1, 7.2, 7.3_
-  - [ ] 1.3 Checkpoint — 确认 Event 类变更完成
+  - [-] 1.3 Checkpoint — 确认 Event 类变更完成
     - 运行 `vendor/bin/phpunit`，确认全部测试通过且无 deprecation warning
     - 通过后 commit（消息包含 Task 1 范围说明）
     - 如有问题请向用户确认
 
 - [ ] 2. EventDispatcherTrait 调用与比较现代化（Req 3）
-  - [ ] 2.1 编写 Example-Based Tests 和 PBT（test-first）
+  - [~] 2.1 编写 Example-Based Tests 和 PBT（test-first）
     - 在 `ut/EventTest.php` 中新增 Example-Based Tests，验证回调比较逻辑：
       - 字符串回调的添加与移除（`addEventListener('e', 'func')` → `removeEventListener('e', 'func')` → dispatch 不触发）
       - 数组回调（同一对象引用）的添加与移除
@@ -45,19 +45,19 @@
     - 每个 PBT 使用 Eris 生成器，Tag 格式：`// Feature: release-3.0, Property {N}: {property_text}`
     - 运行新增测试确认在当前代码上 PASS（当前 `==` 比较在正常使用场景下与 `===` 行为一致）
     - _Requirements: 3.2, 3.3_
-  - [ ] 2.2 实现 EventDispatcherTrait 代码变更
+  - [~] 2.2 实现 EventDispatcherTrait 代码变更
     - 在 `doDispatchEvent()` 中将 `call_user_func($callback, $event)` 替换为 `$callback($event)`
     - 在 `removeEventListener()` 中将 `$comp` 闭包和 `!$comp($callback, $listener)` 替换为直接的 `$callback !== $listener` 严格比较
     - 移除 `$comp` 闭包定义
     - 运行全量测试 `vendor/bin/phpunit`，确认所有测试通过
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 7.1, 7.2, 7.5_
-  - [ ] 2.3 Checkpoint — 确认 EventDispatcherTrait 变更完成
+  - [~] 2.3 Checkpoint — 确认 EventDispatcherTrait 变更完成
     - 运行 `vendor/bin/phpunit`，确认全部测试通过且无 deprecation warning
     - 通过后 commit（消息包含 Task 2 范围说明）
     - 如有问题请向用户确认
 
 - [ ] 3. 冗余 PHPDoc 移除（Req 4）
-  - [ ] 3.1 集中清理所有文件的 PHPDoc
+  - [~] 3.1 集中清理所有文件的 PHPDoc
     - `src/Event.php`：移除文件头 `Created by PhpStorm` 注释块；移除构造函数 `@param` PHPDoc block
     - `src/EventDispatcherInterface.php`：移除文件头 `Created by PhpStorm` 注释块；移除 `dispatch()` 方法上方的 `/** Dispatches a event */` PHPDoc block
     - `src/EventDispatcherTrait.php`：移除文件头 `Created by PhpStorm` 注释块；保留 class-level `@phpstan-require-implements` PHPDoc；保留 `$eventListeners` 的 `@var` PHPDoc
@@ -66,49 +66,49 @@
     - `src/Event.php` 中 `preventDefault()` 的 `/** alias of Event::cancel() */` 保留（描述性文本）
     - 运行全量测试 `vendor/bin/phpunit`，确认无回归
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 5.3_
-  - [ ] 3.2 Checkpoint — 确认 PHPDoc 清理完成
+  - [~] 3.2 Checkpoint — 确认 PHPDoc 清理完成
     - 运行 `vendor/bin/phpunit`，确认全部测试通过且无 deprecation warning
     - 通过后 commit（消息包含 Task 3 范围说明）
     - 如有问题请向用户确认
 
 - [ ] 4. 测试文件语法现代化（Req 5）
-  - [ ] 4.1 检查并应用测试文件的 PHP 8.1/8.2 语法升级
+  - [~] 4.1 检查并应用测试文件的 PHP 8.1/8.2 语法升级
     - 检查 `ut/EventTest.php` 和 `ut/EventPropertyTest.php` 是否有 constructor promotion 机会（测试辅助类的构造函数）
     - 检查是否有 `call_user_func()` 调用需要替换
     - 检查是否有其它 PHP 8.1/8.2 语法升级机会
     - 注意：两个测试文件已使用现代语法（intersection types、first-class callable 等），预计变更极少
     - 运行全量测试 `vendor/bin/phpunit`，确认无错误和 deprecation warning
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 7.2_
-  - [ ] 4.2 Checkpoint — 确认测试文件现代化完成
+  - [~] 4.2 Checkpoint — 确认测试文件现代化完成
     - 运行 `vendor/bin/phpunit`，确认全部测试通过且无 deprecation warning
     - 通过后 commit（消息包含 Task 4 范围说明）
     - 如有问题请向用户确认
 
 - [ ] 5. SSOT 文档更新（Req 8）
-  - [ ] 5.1 更新 `docs/state/architecture.md`
+  - [~] 5.1 更新 `docs/state/architecture.md`
     - 技术选型 section：新增说明"代码使用 PHP 8.1/8.2 现代语法（constructor promotion、readonly properties）"
     - _Requirements: 8.1_
-  - [ ] 5.2 更新 `docs/state/api.md`
+  - [~] 5.2 更新 `docs/state/api.md`
     - Event section —「构造」代码块：更新构造函数签名，体现 promoted parameters 和 readonly（如 `protected readonly string $name`）
     - Event section —「构造」下方说明：在 `$bubbles` 和 `$cancellable` 的说明旁注明 `readonly`；新增 `$name` 为 `readonly` 的说明
     - EventDispatcherTrait section —「监听器比较（removeEventListener）」：更新比较逻辑说明，从"字符串 `==` / 数组逐元素 `==` / 其它 `===`"改为"统一使用 `!==` 严格比较"
     - _Requirements: 8.2, 8.3_
-  - [ ] 5.3 Checkpoint — 确认 SSOT 文档更新完成
+  - [~] 5.3 Checkpoint — 确认 SSOT 文档更新完成
     - Review 更新后的 state 文档，确认与实际代码状态一致
     - 通过后 commit（消息包含 Task 5 范围说明）
     - 如有问题请向用户确认
 
 - [ ] 6. 手工测试
-  - [ ] 6.1 Increment alpha tag
+  - [~] 6.1 Increment alpha tag
     - 按 release 流程递增 alpha tag
-  - [ ] 6.2 执行手工测试验证
+  - [~] 6.2 执行手工测试验证
     - 运行 `vendor/bin/phpunit`，确认全量测试通过
     - 检查无 deprecation warning
     - 确认所有 2.0 PBT 测试在 3.0 代码上仍通过
     - 确认新增的 Smoke Tests 和 PBT 全部通过
 
 - [ ] 7. Code Review
-  - [ ] 7.1 委托给 code-reviewer sub-agent 执行，review 范围为本 spec 的所有变更
+  - [~] 7.1 委托给 code-reviewer sub-agent 执行，review 范围为本 spec 的所有变更
 
 ## Notes
 
