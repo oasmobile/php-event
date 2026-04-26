@@ -336,4 +336,123 @@ class EventPropertyTest extends TestCase
             $this->assertSame($expected, $executionOrder);
         });
     }
+
+    // =========================================================================
+    // Feature: release-3.0, Property 1: 回调移除正确性（严格比较）
+    //
+    // For any dispatcher, event name, and set of Closure listeners,
+    // removing one specific listener by reference ensures it is NOT triggered,
+    // while all other listeners ARE triggered.
+    // Validates: Requirements 3.2, 3.3
+    // =========================================================================
+
+    public function testCallbackRemovalCorrectnessStrictComparison(): void
+    {
+        $this->forAll(
+            Generators::suchThat(
+                fn(string $s) => $s !== '',
+                Generators::string()
+            ),
+            Generators::choose(2, 6)
+        )->then(function (string $eventName, int $listenerCount) {
+            $dispatcher = new PBTEventDispatcher();
+
+            // Create N distinct Closure listeners, each recording its index when called
+            $calledIndices = [];
+            $listeners = [];
+            for ($i = 0; $i < $listenerCount; $i++) {
+                $idx = $i;
+                $listeners[] = function (Event $e) use (&$calledIndices, $idx) {
+                    $calledIndices[] = $idx;
+                };
+            }
+
+            // Register all listeners
+            foreach ($listeners as $listener) {
+                $dispatcher->addEventListener($eventName, $listener);
+            }
+
+            // Randomly select one to remove
+            $removeIndex = random_int(0, $listenerCount - 1);
+            $dispatcher->removeEventListener($eventName, $listeners[$removeIndex]);
+
+            // Dispatch
+            $dispatcher->dispatch(new Event($eventName));
+
+            // Removed listener should NOT have been triggered
+            $this->assertNotContains(
+                $removeIndex,
+                $calledIndices,
+                "Removed listener (index $removeIndex) should not be triggered"
+            );
+
+            // All other listeners should have been triggered
+            for ($i = 0; $i < $listenerCount; $i++) {
+                if ($i !== $removeIndex) {
+                    $this->assertContains(
+                        $i,
+                        $calledIndices,
+                        "Non-removed listener (index $i) should be triggered"
+                    );
+                }
+            }
+        });
+    }
+
+    // =========================================================================
+    // Feature: release-3.0, Property 2: 非目标监听器不受移除影响
+    //
+    // For any dispatcher with multiple listeners on the same event,
+    // removing one specific listener does NOT affect invocation of others.
+    // Validates: Requirements 3.3
+    // =========================================================================
+
+    public function testNonTargetListenersUnaffectedByRemoval(): void
+    {
+        $this->forAll(
+            Generators::suchThat(
+                fn(string $s) => $s !== '',
+                Generators::string()
+            ),
+            Generators::choose(3, 8)
+        )->then(function (string $eventName, int $listenerCount) {
+            $dispatcher = new PBTEventDispatcher();
+
+            // Create N distinct Closure listeners
+            $calledIndices = [];
+            $listeners = [];
+            for ($i = 0; $i < $listenerCount; $i++) {
+                $idx = $i;
+                $listeners[] = function (Event $e) use (&$calledIndices, $idx) {
+                    $calledIndices[] = $idx;
+                };
+            }
+
+            // Register all listeners
+            foreach ($listeners as $listener) {
+                $dispatcher->addEventListener($eventName, $listener);
+            }
+
+            // Remove one specific listener
+            $removeIndex = random_int(0, $listenerCount - 1);
+            $dispatcher->removeEventListener($eventName, $listeners[$removeIndex]);
+
+            // Dispatch
+            $dispatcher->dispatch(new Event($eventName));
+
+            // All non-removed listeners must be triggered exactly once
+            $expectedIndices = [];
+            for ($i = 0; $i < $listenerCount; $i++) {
+                if ($i !== $removeIndex) {
+                    $expectedIndices[] = $i;
+                }
+            }
+
+            $this->assertSame(
+                $expectedIndices,
+                $calledIndices,
+                'All non-removed listeners should be triggered in registration order'
+            );
+        });
+    }
 }
