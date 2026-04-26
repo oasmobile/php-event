@@ -84,7 +84,7 @@
     - 通过后 commit（消息包含 Task 4 范围说明）
     - 如有问题请向用户确认
 
-- [-] 5. SSOT 文档更新（Req 8）
+- [x] 5. SSOT 文档更新（Req 8）
   - [x] 5.1 更新 `docs/state/architecture.md`
     - 技术选型 section：新增说明"代码使用 PHP 8.1/8.2 现代语法（constructor promotion、readonly properties）"
     - _Requirements: 8.1_
@@ -93,22 +93,22 @@
     - Event section —「构造」下方说明：在 `$bubbles` 和 `$cancellable` 的说明旁注明 `readonly`；新增 `$name` 为 `readonly` 的说明
     - EventDispatcherTrait section —「监听器比较（removeEventListener）」：更新比较逻辑说明，从"字符串 `==` / 数组逐元素 `==` / 其它 `===`"改为"统一使用 `!==` 严格比较"
     - _Requirements: 8.2, 8.3_
-  - [-] 5.3 Checkpoint — 确认 SSOT 文档更新完成
+  - [x] 5.3 Checkpoint — 确认 SSOT 文档更新完成
     - Review 更新后的 state 文档，确认与实际代码状态一致
     - 通过后 commit（消息包含 Task 5 范围说明）
     - 如有问题请向用户确认
 
-- [ ] 6. 手工测试
-  - [~] 6.1 Increment alpha tag
+- [x] 6. 手工测试
+  - [x] 6.1 Increment alpha tag
     - 按 release 流程递增 alpha tag
-  - [~] 6.2 执行手工测试验证
+  - [x] 6.2 执行手工测试验证
     - 运行 `vendor/bin/phpunit`，确认全量测试通过
     - 检查无 deprecation warning
     - 确认所有 2.0 PBT 测试在 3.0 代码上仍通过
     - 确认新增的 Smoke Tests 和 PBT 全部通过
 
-- [ ] 7. Code Review
-  - [~] 7.1 委托给 code-reviewer sub-agent 执行，review 范围为本 spec 的所有变更
+- [x] 7. Code Review
+  - [x] 7.1 委托给 code-reviewer sub-agent 执行，review 范围为本 spec 的所有变更
 
 ## Notes
 
