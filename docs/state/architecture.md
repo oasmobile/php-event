@@ -7,6 +7,7 @@
 - **自动加载**：PSR-4，`Oasis\Mlib\Event\` → `src/`
 - **测试**：PHPUnit ^11.0，配置文件 `phpunit.xml`，测试目录 `ut/`
 - **运行时依赖**：`php >=8.2`（Composer `require`）
+- **语法风格**：代码使用 PHP 8.1/8.2 现代语法（constructor promotion、readonly properties、直接 callable 调用）
 
 ## 分层结构
 

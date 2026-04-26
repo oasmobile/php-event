@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: minhao
- * Date: 2015-09-28
- * Time: 18:33
- */
 
 namespace Oasis\Mlib\Event;
 
@@ -96,25 +90,11 @@ trait EventDispatcherTrait
 
     public function removeEventListener(string $name, callable $listener): void
     {
-        $comp = function ($a, $b) {
-            if (is_string($a) && is_string($b) && $a == $b) {
-                return true;
-            }
-
-            if (is_array($a) && is_array($b) && count($a) == 2 && count($b) == 2) {
-                if ($a[0] == $b[0] && $a[1] == $b[1]) {
-                    return true;
-                }
-            }
-
-            return $a === $b;
-        };
-
         if (isset($this->eventListeners[$name]) && is_array($this->eventListeners[$name])) {
             foreach ($this->eventListeners[$name] as $priority => &$list) {
                 $new_list = [];
                 foreach ($list as $callback) {
-                    if (!$comp($callback, $listener)) {
+                    if ($callback !== $listener) {
                         $new_list[] = $callback;
                     }
                 }
@@ -144,7 +124,7 @@ trait EventDispatcherTrait
         if (isset($this->eventListeners[$event->getName()])) {
             foreach ($this->eventListeners[$event->getName()] as $priority => $callbacks) {
                 foreach ($callbacks as $callback) {
-                    call_user_func($callback, $event);
+                    $callback($event);
 
                     if ($event->isPropagationStoppedImmediately()) {
                         return;

@@ -1,0 +1,16 @@
+{
+  "operations": [
+    {
+      "type": "init",
+      "timestamp": "2026-04-25",
+      "files_read": 12,
+      "nodes_created": 44,
+      "edges_created": 40,
+      "hyperedges_created": 4
+    }
+  ],
+  "total": {
+    "operations": 1,
+    "files_read": 12
+  }
+}
