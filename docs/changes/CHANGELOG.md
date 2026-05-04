@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.0.2 - 2026-07-20
+
+依赖升级：PHP >=8.5、PHPUnit ^13.0，测试代码适配消除 24 个 notice。源码无变更。详见 [3.0.2/CHANGELOG.md](3.0.2/CHANGELOG.md)。
+
 ## v3.0.0 - 2026-07-19
 
 PHP 8.1/8.2 语法现代化：constructor promotion、readonly properties、直接 callable 调用、回调比较逻辑现代化、冗余 PHPDoc 移除。详见 [3.0.0/CHANGELOG.md](3.0.0/CHANGELOG.md)。
