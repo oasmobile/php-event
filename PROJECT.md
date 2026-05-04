@@ -8,7 +8,7 @@ PHP 事件分发辅助库，提供 Event 对象、EventDispatcher 接口与 Trai
 - **包管理**：Composer
 - **命名空间**：`Oasis\Mlib\Event\`
 - **自动加载**：PSR-4（`src/`）
-- **测试框架**：PHPUnit ^5.1（dev 依赖）
+- **测试框架**：PHPUnit ^13.0（dev 依赖）
 - **许可证**：MIT
 
 ## 构建 / 测试命令

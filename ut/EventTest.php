@@ -5,7 +5,6 @@ namespace Oasis\Mlib\UnitTesting;
 use Oasis\Mlib\Event\Event;
 use Oasis\Mlib\Event\EventDispatcherInterface;
 use Oasis\Mlib\Event\EventDispatcherTrait;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,42 +28,43 @@ class DummyEventDispatcher implements EventDispatcherInterface
 class EventTest extends TestCase
 {
     protected EventDispatcherInterface $dummy_dispatcher;
-    protected MockObject&EventSubscriberStub $mocked_subscriber;
 
     protected function setUp(): void
     {
-        $this->dummy_dispatcher  = new DummyEventDispatcher();
-        $this->mocked_subscriber = $this->createMock(EventSubscriberStub::class);
+        $this->dummy_dispatcher = new DummyEventDispatcher();
     }
 
     public function testDispatch(): void
     {
-        $this->mocked_subscriber->expects($this->once())
-                                ->method('func')
-                                ->with($this->isInstanceOf(Event::class));
+        $subscriber = $this->createMock(EventSubscriberStub::class);
+        $subscriber->expects($this->once())
+                   ->method('func')
+                   ->with($this->isInstanceOf(Event::class));
 
-        $this->dummy_dispatcher->addEventListener('visit', [$this->mocked_subscriber, 'func']);
+        $this->dummy_dispatcher->addEventListener('visit', [$subscriber, 'func']);
         $this->dummy_dispatcher->dispatch(new Event('visit'));
     }
 
     public function testDispatchString(): void
     {
-        $this->mocked_subscriber->expects($this->once())
-                                ->method('func')
-                                ->with($this->isInstanceOf(Event::class));
+        $subscriber = $this->createMock(EventSubscriberStub::class);
+        $subscriber->expects($this->once())
+                   ->method('func')
+                   ->with($this->isInstanceOf(Event::class));
 
-        $this->dummy_dispatcher->addEventListener('visit', [$this->mocked_subscriber, 'func']);
+        $this->dummy_dispatcher->addEventListener('visit', [$subscriber, 'func']);
         $this->dummy_dispatcher->dispatch('visit');
     }
 
     public function testRemoveListener(): void
     {
-        $this->mocked_subscriber->expects($this->never())
-                                ->method('func')
-                                ->with($this->isInstanceOf(Event::class));
+        $subscriber = $this->createMock(EventSubscriberStub::class);
+        $subscriber->expects($this->never())
+                   ->method('func')
+                   ->with($this->isInstanceOf(Event::class));
 
-        $this->dummy_dispatcher->addEventListener('visit', [$this->mocked_subscriber, 'func']);
-        $this->dummy_dispatcher->removeEventListener('visit', [$this->mocked_subscriber, 'func']);
+        $this->dummy_dispatcher->addEventListener('visit', [$subscriber, 'func']);
+        $this->dummy_dispatcher->removeEventListener('visit', [$subscriber, 'func']);
         $this->dummy_dispatcher->dispatch('visit');
     }
 
@@ -73,11 +73,12 @@ class EventTest extends TestCase
         $parent = new DummyEventDispatcher();
         $this->dummy_dispatcher->setParentEventDispatcher($parent);
 
-        $this->mocked_subscriber->expects($this->once())
-                                ->method('func')
-                                ->with($this->isInstanceOf(Event::class));
+        $subscriber = $this->createMock(EventSubscriberStub::class);
+        $subscriber->expects($this->once())
+                   ->method('func')
+                   ->with($this->isInstanceOf(Event::class));
 
-        $parent->addEventListener('visit', [$this->mocked_subscriber, 'func']);
+        $parent->addEventListener('visit', [$subscriber, 'func']);
         $this->dummy_dispatcher->dispatch('visit');
     }
 
@@ -86,12 +87,13 @@ class EventTest extends TestCase
         $parent = new DummyEventDispatcher();
         $this->dummy_dispatcher->setParentEventDispatcher($parent);
 
-        $this->mocked_subscriber->expects($this->exactly(2))
-                                ->method('func')
-                                ->with($this->isInstanceOf(Event::class));
+        $subscriber = $this->createMock(EventSubscriberStub::class);
+        $subscriber->expects($this->exactly(2))
+                   ->method('func')
+                   ->with($this->isInstanceOf(Event::class));
 
-        $this->dummy_dispatcher->addEventListener('visit', [$this->mocked_subscriber, 'func']);
-        $parent->addEventListener('visit', [$this->mocked_subscriber, 'func']);
+        $this->dummy_dispatcher->addEventListener('visit', [$subscriber, 'func']);
+        $parent->addEventListener('visit', [$subscriber, 'func']);
         $this->dummy_dispatcher->dispatch(new Event('visit', null, false));
     }
 
@@ -100,11 +102,12 @@ class EventTest extends TestCase
         $parent = new DummyEventDispatcher();
         $this->dummy_dispatcher->setParentEventDispatcher($parent);
 
-        $this->mocked_subscriber->expects($this->never())
-                                ->method('func')
-                                ->with($this->isInstanceOf(Event::class));
+        $subscriber = $this->createMock(EventSubscriberStub::class);
+        $subscriber->expects($this->never())
+                   ->method('func')
+                   ->with($this->isInstanceOf(Event::class));
 
-        $parent->addEventListener('visit', [$this->mocked_subscriber, 'func']);
+        $parent->addEventListener('visit', [$subscriber, 'func']);
         $this->dummy_dispatcher->addEventListener(
             'visit',
             function (Event $e) {
@@ -115,11 +118,12 @@ class EventTest extends TestCase
 
     public function testWhenImmediatelyStoppedInChild(): void
     {
-        $this->mocked_subscriber->expects($this->never())
-                                ->method('func')
-                                ->with($this->isInstanceOf(Event::class));
+        $subscriber = $this->createMock(EventSubscriberStub::class);
+        $subscriber->expects($this->never())
+                   ->method('func')
+                   ->with($this->isInstanceOf(Event::class));
 
-        $this->dummy_dispatcher->addEventListener('visit', [$this->mocked_subscriber, 'func']);
+        $this->dummy_dispatcher->addEventListener('visit', [$subscriber, 'func']);
         $this->dummy_dispatcher->addEventListener(
             'visit',
             function (Event $e) {
@@ -493,11 +497,12 @@ class EventTest extends TestCase
 
     public function testArrayCallbackSameObjectReferenceAddAndRemove(): void
     {
-        $this->mocked_subscriber->expects($this->never())
-                                ->method('func');
+        $subscriber = $this->createMock(EventSubscriberStub::class);
+        $subscriber->expects($this->never())
+                   ->method('func');
 
-        $this->dummy_dispatcher->addEventListener('e', [$this->mocked_subscriber, 'func']);
-        $this->dummy_dispatcher->removeEventListener('e', [$this->mocked_subscriber, 'func']);
+        $this->dummy_dispatcher->addEventListener('e', [$subscriber, 'func']);
+        $this->dummy_dispatcher->removeEventListener('e', [$subscriber, 'func']);
         $this->dummy_dispatcher->dispatch(new Event('e'));
     }
 

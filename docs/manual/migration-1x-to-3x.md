@@ -6,13 +6,13 @@
 
 ## 环境要求
 
-| 项目 | 1.x | 3.0 |
+| 项目 | 1.x | 3.x |
 |------|-----|-----|
-| PHP | 5.6+ | **>=8.2** |
-| PHPUnit | ^5.1 | ^11.0 |
-| Composer `require` | 无 PHP 约束 | `"php": ">=8.2"` |
+| PHP | 5.6+ | **>=8.5** |
+| PHPUnit | ^5.1 | ^13.0 |
+| Composer `require` | 无 PHP 约束 | `"php": ">=8.5"` |
 
-升级前请确认运行环境满足 PHP 8.2+ 要求。
+升级前请确认运行环境满足 PHP 8.5+ 要求。
 
 ---
 
@@ -81,7 +81,7 @@ public function __construct(
 
 ## 迁移步骤
 
-1. **升级 PHP 到 8.2+**
+1. **升级 PHP 到 8.5+**
 2. **更新 Composer 依赖**
    ```bash
    composer require oasis/event:^3.0
